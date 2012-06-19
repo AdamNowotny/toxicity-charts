@@ -9,4 +9,4 @@ How to use
 * Create FxCop report and save the XML file
 * Run "FxCopConverter your_fxcop_report.xml", this will create JSON file
 * Open http://toxicity.azurewebsites.net/
-* Load your JSON file using the website
+* Load your JSON file using the website (drag to the file control on the page)

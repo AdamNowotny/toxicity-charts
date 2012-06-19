@@ -1,0 +1,19 @@
+.navigation {
+    margin-bottom: 1em;
+}
+
+.navigation button {
+    float: left;
+}
+
+#chart div {
+      border-collapse: collapse;
+}
+
+.cell {
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}

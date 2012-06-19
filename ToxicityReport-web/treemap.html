@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>Treemap</title>
+	<script type="text/javascript" src="lib/d3/d3.v2.js"></script>
+	<script type="text/javascript" src="treemap.js"></script>
+	<link type="text/css" rel="stylesheet" href="treemap.css" />
+	<link type="text/css" rel="stylesheet" href="button.css" />
+</head>
+<body>
+	<div class="navigation">
+		<button id="lines" class="first active">
+			Lines
+		</button>
+		<button id="linesPerMethod">
+			Lines per method
+		</button>
+		<button id="complexity">
+			Complexity
+		</button>
+		<button id="coupling">
+			Coupling
+		</button>
+		<button id="namespace" class="last">
+			Namespace
+		</button>
+		<input type="file" id="metricFile" />
+	</div>
+	<div id="chart">
+	</div>
+	<script type="text/javascript">
+		function loadMetricFile(evt) {
+			var file = evt.target.files[0];
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				var json = JSON.parse(e.target.result);
+				document.getElementById("lines").click();
+				treemap.initialize(json);
+			};
+			reader.readAsText(file);
+		};
+		document.getElementById('metricFile').addEventListener('change', loadMetricFile, false);
+
+		var testChild = { "name": "testChild" };
+		var test = { "name": "test", children: [ testChild, testChild] };
+	</script>
+</body>
+</html>

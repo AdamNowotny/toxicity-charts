@@ -2,6 +2,7 @@
 bin
 obj
 _ReSharper.*
+ToxicityReport.suo
 
 # mstest test results
 TestResults

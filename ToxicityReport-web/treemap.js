@@ -75,7 +75,7 @@ var treemap = function () {
 	var cellColor = function (d, metricName) {
 		if (metricName == 'namespace') return namespaceColorScale(d.depth);
 		var max = maxMetric[metricName];
-		var color = classColor.domain([0, max, max * 2])(d[metricName]);
+		var color = classColor.domain([0, max, max * 4])(d[metricName]);
 		var borderColor = namespaceColorScale(d.depth);
 		return d.children ? borderColor : color;
 	};

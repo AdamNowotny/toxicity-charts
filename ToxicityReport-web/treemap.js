@@ -3,7 +3,7 @@ var treemap = function () {
 	var width = window.innerWidth - 20,
 		height = window.innerHeight - 60,
 		namespaceColorScale = d3.scale.linear().range(["white", "black"]),
-		classColor = d3.scale.linear().range(["white", "red"]);
+		classColor = d3.scale.linear().range(["white", "red", "black"]);
 
 	var maxMetric = {
 		lines: 500,
@@ -12,11 +12,17 @@ var treemap = function () {
 		coupling: 10
 	};
 
-	var cellColor = function (d, metric) {
-		var max = maxMetric[metric];
-		var color = classColor.domain([0, max])(d[metric]);
+	var cellColor = function (d, metricName) {
+		var max = maxMetric[metricName];
+		var color = classColor.domain([0, max, max * 2])(d[metricName]);
 		var borderColor = namespaceColorScale(d.depth);
 		return d.children ? borderColor : color;
+	};
+
+	var cellTextColor = function (d, metricName) {
+		var max = maxMetric[metricName];
+		var color = d[metricName] > max ? "white" : "black";
+		return d.children ? null : color;
 	};
 
 	var div;
@@ -43,6 +49,7 @@ var treemap = function () {
 		chart.enter().append("div")
 		  .attr("class", "cell")
 		  .style("background", function (d) { return cellColor(d, "lines"); })
+		  .style("color", function (d) { return cellTextColor(d, "lines"); })
 		  .call(cell)
 		  .call(cellContent("lines"));
 		chart.exit().remove();
@@ -54,6 +61,7 @@ var treemap = function () {
 		  .transition()
 			.duration(1500)
 			.style("background", function (d) { return cellColor(d, "lines"); })
+			.style("color", function (d) { return cellTextColor(d, "lines"); })
 			.call(cell);
 
 			activateButton("lines");
@@ -66,6 +74,7 @@ var treemap = function () {
 		  .transition()
 			.duration(1500)
 			.style("background", function (d) { return cellColor(d, "linesPerMethod"); })
+			.style("color", function (d) { return cellTextColor(d, "linesPerMethod"); })
 			.call(cell);
 
 			activateButton("linesPerMethod");
@@ -78,6 +87,7 @@ var treemap = function () {
 		  .transition()
 			.duration(1500)
 			.style("background", function (d) { return cellColor(d, "complexity"); })
+			.style("color", function (d) { return cellTextColor(d, "complexity"); })
 			.call(cell);
 
 			activateButton("complexity");
@@ -90,6 +100,7 @@ var treemap = function () {
 		  .transition()
 			.duration(1500)
 			.style("background", function (d) { return cellColor(d, "coupling"); })
+			.style("color", function (d) { return cellTextColor(d, "coupling"); })
 			.call(cell);
 
 			activateButton("coupling");

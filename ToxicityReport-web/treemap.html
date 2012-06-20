@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<title>Treemap</title>
 	<script type="text/javascript" src="lib/d3/d3.v2.js"></script>
 	<script type="text/javascript" src="treemap.js"></script>
@@ -31,16 +31,16 @@
 	</div>
 	<script type="text/javascript">
 		function loadMetricFile(evt) {
-			var file = evt.target.files[0];
+			var file = d3.event.target.files[0];
 			var reader = new FileReader();
 			reader.onload = function (e) {
 				var json = JSON.parse(e.target.result);
 				document.getElementById("lines").click();
-				treemap.initialize(json);
+				treemap.update(json);
 			};
 			reader.readAsText(file);
 		};
-		document.getElementById('metricFile').addEventListener('change', loadMetricFile, false);
+		d3.select('#metricFile').on('change', loadMetricFile);
 	</script>
 </body>
 </html>

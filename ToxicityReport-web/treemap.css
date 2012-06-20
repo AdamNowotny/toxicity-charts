@@ -6,8 +6,8 @@
     float: left;
 }
 
-#chart div {
-      border-collapse: collapse;
+#chart {
+    position: relative;
 }
 
 .cell {

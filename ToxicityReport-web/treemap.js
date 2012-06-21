@@ -13,17 +13,19 @@ var treemap = function () {
 
 	var treemap = d3.layout.treemap()
 		.value(function (d) { return d.lines; })
-		.padding(3);
+		.padding(function (d) {
+			var top = d.children ? 13 : 3;
+			return [top, 3, 3, 3];
+		});
+
+	var content = function (metricName) {
+		return function (d) {
+			var metricValue = d[metricName];
+			return d.children ? d.name : d.name + '<br/>' + Math.round(metricValue);
+		};
+	};
 
 	var updateTreemap = function (metricName, /* optional */data) {
-		var content = function (d) {
-			if (metricName == 'namespace') {
-				return d.children ? null : d.parent.name + '<br/>' + d.name;
-			}
-			var metricValue = d[metricName];
-			return d.children ? null : d.name + '<br/>' + Math.round(metricValue);
-		};
-
 		var width = window.innerWidth - 20,
 			height = window.innerHeight - 60;
 		data = data || d3.select(selector).data();
@@ -35,7 +37,7 @@ var treemap = function () {
 			.style('height', height + 'px')
 			.selectAll('div')
 			.data(treemap.nodes)
-			.html(content);
+			.html(content(metricName));
 		chart.transition()
 			.duration(1500)
 			.style('background', function (d) { return cellColor(d, metricName); })
@@ -45,7 +47,7 @@ var treemap = function () {
 			.attr('class', 'cell')
 			.style('background', function (d) { return cellColor(d, metricName); })
 			.style('color', function (d) { return cellTextColor(d, metricName); })
-			.html(content)
+			.html(content(metricName))
 			.call(cell);
 		chart.exit().remove();
 	};
@@ -76,14 +78,12 @@ var treemap = function () {
 					return this.id == name;
 				});
 			};
-
 			updateTreemap(this.id);
 			activateButton(this.id);
 		});
 	};
 
 	var cellColor = function (d, metricName) {
-		if (metricName == 'namespace') return namespaceColorScale(d.depth);
 		var max = maxMetric[metricName];
 		var color = classColor.domain([0, max, max * 4])(d[metricName]);
 		var borderColor = namespaceColorScale(d.depth);
@@ -91,10 +91,9 @@ var treemap = function () {
 	};
 
 	var cellTextColor = function (d, metricName) {
-		if (metricName == 'namespace') return "white";
 		var max = maxMetric[metricName];
 		var color = d[metricName] > max ? 'white' : 'black';
-		return d.children ? null : color;
+		return d.children ? "white" : color;
 	};
 
 	var cell = function () {

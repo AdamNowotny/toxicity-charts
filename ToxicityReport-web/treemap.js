@@ -53,10 +53,20 @@ var treemap = function () {
 	var update = function (json) {
 		// need to reset cached state when switching datasets with a sticky layout
 		treemap.sticky(true);
-		namespaceColorScale.domain([0, 7]);
+		namespaceColorScale.domain([0, getDepth(json)]);
 		d3.selectAll(selector).html('');
 		updateTreemap('lines', [json]);
 		attachButtons();
+	};
+
+	var getDepth = function (json) {
+		if (!json.children) return 0;
+		var maxChildDepth = 0;
+		for (var i = 0; i < json.children.length; i++) {
+			var childDepth = getDepth(json.children[i]);
+			maxChildDepth = Math.max(maxChildDepth, childDepth);
+		}
+		return maxChildDepth + 1;
 	};
 
 	var attachButtons = function () {
@@ -81,6 +91,7 @@ var treemap = function () {
 	};
 
 	var cellTextColor = function (d, metricName) {
+		if (metricName == 'namespace') return "white";
 		var max = maxMetric[metricName];
 		var color = d[metricName] > max ? 'white' : 'black';
 		return d.children ? null : color;

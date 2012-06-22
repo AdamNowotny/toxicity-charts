@@ -21,7 +21,7 @@ var treemap = function () {
 	var content = function (metricName) {
 		return function (d) {
 			var metricValue = d[metricName];
-			return d.children ? d.name : d.name + '<br/>' + Math.round(metricValue);
+			return d.children ? d.name : escape(d.name) + '<br/>' + metricValue;
 		};
 	};
 
@@ -48,6 +48,7 @@ var treemap = function () {
 			.style('background', function (d) { return cellColor(d, metricName); })
 			.style('color', function (d) { return cellTextColor(d, metricName); })
 			.html(content(metricName))
+			.transition()
 			.call(cell);
 		chart.exit().remove();
 	};
@@ -107,4 +108,5 @@ var treemap = function () {
 	return {
 		update: update
 	}
+
 } ();

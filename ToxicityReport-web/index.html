@@ -4,6 +4,11 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<title>ToxicityReport</title>
 	<script type="text/javascript" src="lib/d3/d3.v2.min.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="stringExtensions.js"></script>
+	<script type="text/javascript" src="arrayExtensions.js"></script>
+	<script type="text/javascript" src="treemapJsonBuilder.js"></script>
+	<script type="text/javascript" src="fxcopParser.js"></script>
 	<script type="text/javascript" src="treemap.js"></script>
 	<link type="text/css" rel="stylesheet" href="treemap.css" />
 	<link type="text/css" rel="stylesheet" href="button.css" />
@@ -31,9 +36,9 @@
 			var file = d3.event.target.files[0];
 			var reader = new FileReader();
 			reader.onload = function (e) {
-				var json = JSON.parse(e.target.result);
-				document.getElementById("lines").click();
+			    var json = fxcopParser.parse(e.target.result);
 				treemap.update(json);
+				document.getElementById("lines").click();
 			};
 			reader.readAsText(file);
 		};

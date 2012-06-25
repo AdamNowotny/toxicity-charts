@@ -10,10 +10,10 @@ var treemapChart = function () {
 			linesPerMethod: 30,
 			complexity: 10,
 			coupling: 10
-		};
-	var selection;
+		},
+		currentSelection = null;
 
-	var treemap = d3.layout.treemap()
+	var treemapLayout = d3.layout.treemap()
 		.value(function (d) { return d.lines; })
 		.sticky(true)
 		.padding(function (d) {
@@ -21,35 +21,33 @@ var treemapChart = function () {
 			return [top, 3, 3, 3];
 		});
 
-	function treemapChart(selector, data) {
-		if (data) {
+	function treemapChart(selection) {
+		if (selection != currentSelection) {
+			currentSelection = selection;
 			// need to reset cached state when switching datasets with a sticky layout
-			treemap.sticky(true);
+			treemapLayout.sticky(true);
 		}
-		data = data || d3.select(selector).data();
-		treemap.size([width, height]);
-		//selection.each(function (d, i) {
-		var chart = d3.select(selector)
-			.data(data)
-			.style('width', width + 'px')
-			.style('height', height + 'px')
-			.selectAll('div')
-			.data(treemap.nodes)
-			.html(content(metric));
-		chart.transition()
-			.duration(1500)
-			.style('background', function (d) { return cellColor(d, metric); })
-			.style('color', function (d) { return cellTextColor(d, metric); })
-			.call(cell);
-		chart.enter().append('div')
-			.attr('class', 'cell')
-			.style('background', function (d) { return cellColor(d, metric); })
-			.style('color', function (d) { return cellTextColor(d, metric); })
-			.html(content(metric))
-			.transition()
-			.call(cell);
-		chart.exit().remove();
-		//});
+		treemapLayout.size([width, height]);
+		currentSelection.each(function (d, i) {
+			var chart = d3.select(this).style('width', width + 'px')
+				.style('height', height + 'px')
+				.selectAll('div')
+				.data(treemapLayout.nodes)
+				.html(content(metric));
+			chart.transition()
+				.duration(1500)
+				.style('background', function (d) { return cellColor(d, metric); })
+				.style('color', function (d) { return cellTextColor(d, metric); })
+				.call(cell);
+			chart.enter().append('div')
+				.attr('class', 'cell')
+				.style('background', function (d) { return cellColor(d, metric); })
+				.style('color', function (d) { return cellTextColor(d, metric); })
+				.html(content(metric))
+				.transition()
+				.call(cell);
+			chart.exit().remove();
+		});
 	};
 
 	treemapChart.metric = function (value) {

@@ -35,7 +35,6 @@
 var builder = treemapDataBuilder();
 var fxcopParser = fxcopParser(builder);
 var treemap = treemapChart().metric('lines').width(window.innerWidth - 20).height(window.innerHeight - 60);
-var treemapData;
 var selection;
 
 function loadMetricFile(evt) {
@@ -43,10 +42,12 @@ function loadMetricFile(evt) {
 	var reader = new FileReader();
 	reader.onload = function (e) {
 		$('#chart').html('');
-		selection = null;
-		treemapData = fxcopParser.parse(e.target.result);
-		treemap.depth(builder.getDepth(treemapData));
-		updateTreemap([treemapData]);
+		var treemapData = fxcopParser.parse(e.target.result);
+		treemap.depth(builder.getDepth(treemapData))
+			.width(window.innerWidth - 20)
+			.height(window.innerHeight - 60);
+		selection = d3.select('#chart').data([treemapData]);
+		treemap(selection);
 	};
 	reader.readAsText(file);
 };
@@ -60,14 +61,10 @@ function attachButtons () {
 		};
 		activateButton(this.id);
 		treemap.metric(this.id).width(window.innerWidth - 20).height(window.innerHeight - 60);
-		if (treemapData) {
-			updateTreemap();
+		if (selection) {
+			treemap(selection);
 		};
 	});
-};
-
-function updateTreemap(data) {
-	treemap('#chart', data);
 };
 
 d3.select('#metricFile').on('change', loadMetricFile);

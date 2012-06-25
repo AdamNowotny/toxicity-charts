@@ -4,7 +4,8 @@ var treemapChart = function () {
 		height = 400,
 		namespaceColorScale = d3.scale.linear().range(['white', 'black']),
 		classColor = d3.scale.linear().range(['white', 'red', 'black']),
-		metric = 'lines',
+		colorAxis = 'lines',
+		sizeAxis = 'lines',
 		maxMetric = {
 			lines: 500,
 			linesPerMethod: 30,
@@ -14,7 +15,7 @@ var treemapChart = function () {
 		currentSelection = null;
 
 	var treemapLayout = d3.layout.treemap()
-		.value(function (d) { return d.lines; })
+		.value(function (d) { return d[sizeAxis]; })
 		.sticky(true)
 		.padding(function (d) {
 			var top = d.children ? 13 : 3;
@@ -29,30 +30,59 @@ var treemapChart = function () {
 		}
 		treemapLayout.size([width, height]);
 		currentSelection.each(function (d, i) {
-			var chart = d3.select(this).style('width', width + 'px')
+			var chart = d3.select(this)
+				.style('width', width + 'px')
 				.style('height', height + 'px')
 				.selectAll('div')
 				.data(treemapLayout.nodes)
-				.html(content(metric));
+				.html(content);
 			chart.transition()
 				.duration(1500)
-				.style('background', function (d) { return cellColor(d, metric); })
-				.style('color', function (d) { return cellTextColor(d, metric); })
+				.style('background', cellColor)
+				.style('color', cellTextColor)
 				.call(cell);
 			chart.enter().append('div')
 				.attr('class', 'cell')
-				.style('background', function (d) { return cellColor(d, metric); })
-				.style('color', function (d) { return cellTextColor(d, metric); })
-				.html(content(metric))
+				.style('background', cellColor)
+				.style('color', cellTextColor)
+				.html(content)
 				.transition()
 				.call(cell);
 			chart.exit().remove();
 		});
 	};
 
-	treemapChart.metric = function (value) {
-		if (!arguments.length) return metric;
-		metric = value;
+	var content = function (d) {
+		return d.children ? d.name : escape(d.name) + '<br/>' + d3.round(d[colorAxis], 3);
+	};
+
+	var cellColor = function (d) {
+		var max = maxMetric[colorAxis];
+		var color = classColor.domain([0, max, max * 4])(d[colorAxis]);
+		var borderColor = namespaceColorScale(d.depth);
+		return d.children ? borderColor : color;
+	};
+
+	var cellTextColor = function (d) {
+		var color = d[colorAxis] > maxMetric[colorAxis] ? 'white' : 'black';
+		return d.children ? "white" : color;
+	};
+
+	var cell = function () {
+		this.style('left', function (d) { return d.x + 'px'; })
+		  .style('top', function (d) { return d.y + 'px'; })
+		  .style('width', function (d) { return Math.max(0, d.dx - 1) + 'px'; })
+		  .style('height', function (d) { return Math.max(0, d.dy - 1) + 'px'; });
+	};
+	treemapChart.colorAxis = function (value) {
+		if (!arguments.length) return colorAxis;
+		colorAxis = value;
+		return treemapChart;
+	};
+
+	treemapChart.sizeAxis = function (value) {
+		if (!arguments.length) return sizeAxis;
+		sizeAxis = value;
 		return treemapChart;
 	};
 
@@ -80,34 +110,6 @@ var treemapChart = function () {
 		height = value;
 		return treemapChart;
 	};
-
-	var content = function (metricName) {
-		return function (d) {
-			var metricValue = d[metricName];
-			return d.children ? d.name : escape(d.name) + '<br/>' + metricValue;
-		};
-	};
-
-	var cellColor = function (d, metricName) {
-		var max = maxMetric[metricName];
-		var color = classColor.domain([0, max, max * 4])(d[metricName]);
-		var borderColor = namespaceColorScale(d.depth);
-		return d.children ? borderColor : color;
-	};
-
-	var cellTextColor = function (d, metricName) {
-		var max = maxMetric[metricName];
-		var color = d[metricName] > max ? 'white' : 'black';
-		return d.children ? "white" : color;
-	};
-
-	var cell = function () {
-		this
-		  .style('left', function (d) { return d.x + 'px'; })
-		  .style('top', function (d) { return d.y + 'px'; })
-		  .style('width', function (d) { return Math.max(0, d.dx - 1) + 'px'; })
-		  .style('height', function (d) { return Math.max(0, d.dy - 1) + 'px'; });
-	}
 
 	return treemapChart;
 

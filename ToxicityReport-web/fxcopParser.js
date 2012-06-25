@@ -56,7 +56,7 @@
 			.find('Metric[Name=' + metricName + ']')
 			.map(function (index, metricNode) {
 				return value = $(metricNode).attr('Value');
-			}).toArray().normalise(threshold[metricName]).sum().toFixed(2);
+			}).toArray().normalise(threshold[metricName]).sum();
 		return result;
 	};
 

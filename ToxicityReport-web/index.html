@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<title>ToxicityReport</title>
+	<title>Toxicity Report</title>
 	<script type="text/javascript" src="lib/d3/d3.v2.min.js"></script>
 	<script type="text/javascript" src="lib/jquery/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="stringExtensions.js"></script>
@@ -34,7 +34,7 @@
 	<script type="text/javascript">
 var builder = treemapDataBuilder();
 var fxcopParser = fxcopParser(builder);
-var treemap = treemapChart().metric('lines').width(window.innerWidth - 20).height(window.innerHeight - 60);
+var treemap = treemapChart().sizeAxis('lines').colorAxis('lines');
 var selection;
 
 function loadMetricFile(evt) {
@@ -60,10 +60,10 @@ function attachButtons () {
 			});
 		};
 		activateButton(this.id);
-		treemap.metric(this.id).width(window.innerWidth - 20).height(window.innerHeight - 60);
-		if (selection) {
-			treemap(selection);
-		};
+		treemap.colorAxis(this.id)
+			.width(window.innerWidth - 20)
+			.height(window.innerHeight - 60);
+		selection && treemap(selection);
 	});
 };
 

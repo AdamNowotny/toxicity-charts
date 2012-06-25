@@ -15,4 +15,3 @@ Array.prototype.sum = function () {
 	});
 	return sum;
 };
-

@@ -1,4 +1,4 @@
-﻿var fxcopParser = function () {
+﻿var fxcopParser = function (jsonBuilder) {
 
 	var threshold = {
 		'LinesOfCode': 30,
@@ -6,7 +6,7 @@
 		'ClassCoupling': 30
 	};
 
-	var json = treemapJsonBuilder;
+	var json = jsonBuilder;
 
 	var parse = function (xmlString) {
 		var xmlDoc = $.parseXML(xmlString);
@@ -18,11 +18,11 @@
 	}
 
 	var createJson = function (xml) {
-		json.initRoot(xml.attr('Name'));
+		jsonBuilder.initRoot(xml.attr('Name'));
 		xml.find('Type').each(function (index, value) {
 			addType($(value));
 		});
-		return json.getJSON();
+		return jsonBuilder.json();
 	};
 
 	var addType = function (typeNode) {
@@ -35,7 +35,7 @@
 			coupling: getNormalisedMetric(typeNode, 'ClassCoupling')
 		};
 		if (isAnyAboveLimit(properties)) {
-			json.addNode(namespaceName, typeName, properties);
+			jsonBuilder.addNode(namespaceName, typeName, properties);
 		}
 	};
 
@@ -70,4 +70,4 @@
 		parse: parse
 	}
 
-} ();
+};

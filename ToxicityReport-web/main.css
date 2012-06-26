@@ -1,12 +1,12 @@
-.nav {
-    margin-bottom: 1em;
+.chart-container {
+	position: absolute;
+	top: 60px;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
 }
 
-.nav button {
-    float: left;
-}
-
-#chart {
+.chart {
     position: relative;
 }
 

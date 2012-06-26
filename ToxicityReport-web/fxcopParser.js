@@ -1,4 +1,4 @@
-﻿var fxcopParser = function (jsonBuilder) {
+﻿function fxcopParser (jsonBuilder) {
 
 	var threshold = {
 		'LinesOfCode': 30,
@@ -11,11 +11,11 @@
 	var parse = function (xmlString) {
 		var xmlDoc = $.parseXML(xmlString);
 		var xml = $(xmlDoc);
-		if (xml.find('CodeMetricsReport').length == 0) {
+		if (xml.find('CodeMetricsReport').length === 0) {
 			return null;
 		}
 		return createJson(xml.find('Module'));
-	}
+	};
 
 	var createJson = function (xml) {
 		jsonBuilder.initRoot(xml.attr('Name'));
@@ -55,7 +55,7 @@
 			.filter(isMemberValid)
 			.find('Metric[Name=' + metricName + ']')
 			.map(function (index, metricNode) {
-				return value = $(metricNode).attr('Value');
+				return $(metricNode).attr('Value');
 			}).toArray().normalise(threshold[metricName]).sum();
 		return result;
 	};
@@ -68,6 +68,6 @@
 
 	return {
 		parse: parse
-	}
+	};
 
-};
+}

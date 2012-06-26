@@ -3,72 +3,83 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<title>Toxicity Report</title>
+	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="main.css" />
+</head>
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">Toxicity Report</a>
+				<ul class="nav">
+					<li class="dropdown active" id="menu-treemap">
+						<a href="#menu-treemap" class="dropdown-toggle" data-toggle="dropdown">
+							Treemap
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="active" id="lines">
+								<a href="#">Lines</a>
+							</li>
+							<li id="linesPerMethod">
+								<a href="#">Lines per method</a>
+							</li>
+							<li id="complexity">
+								<a href="#">Complexity</a>
+							</li>
+							<li id="coupling">
+								<a href="#">Coupling</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form pull-right">
+						<input type="file" id="metricFile" />
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="chart-container">
+		<div id="chart"></div>
+	</div>
 	<script type="text/javascript" src="lib/d3/d3.v2.min.js"></script>
 	<script type="text/javascript" src="lib/jquery/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="stringExtensions.js"></script>
 	<script type="text/javascript" src="arrayExtensions.js"></script>
 	<script type="text/javascript" src="treemapDataBuilder.js"></script>
 	<script type="text/javascript" src="fxcopParser.js"></script>
 	<script type="text/javascript" src="treemapChart.js"></script>
-	<link type="text/css" rel="stylesheet" href="treemap.css" />
-	<link type="text/css" rel="stylesheet" href="button.css" />
-</head>
-<body>
-	<div class="nav">
-		<button id="lines" class="first active">
-			Lines
-		</button>
-		<button id="linesPerMethod">
-			Lines per method
-		</button>
-		<button id="complexity">
-			Complexity
-		</button>
-		<button id="coupling" class="last">
-			Coupling
-		</button>
-		<input type="file" id="metricFile" />
-	</div>
-	<div id="chart">
-	</div>
+	<script type="text/javascript" src="navigation.js"></script>
 	<script type="text/javascript">
-var builder = treemapDataBuilder();
-var fxcopParser = fxcopParser(builder);
-var treemap = treemapChart().sizeAxis('lines').colorAxis('lines');
+var builder;
+var fxcopParser;
+var treemap;
 var selection;
 
-function loadMetricFile(evt) {
-	var file = d3.event.target.files[0];
-	var reader = new FileReader();
-	reader.onload = function (e) {
-		$('#chart').html('');
-		var treemapData = fxcopParser.parse(e.target.result);
-		treemap.depth(builder.getDepth(treemapData))
-			.width(window.innerWidth - 20)
-			.height(window.innerHeight - 60);
-		selection = d3.select('#chart').data([treemapData]);
-		treemap(selection);
-	};
-	reader.readAsText(file);
+function parseMetricFile(content) {
+	$('#chart').html('');
+	var treemapData = fxcopParser.parse(content);
+	treemap.depth(builder.getDepth(treemapData))
+		.width($('.chart-container').width())
+		.height($('.chart-container').height());
+	selection = d3.select('#chart').data([treemapData]);
+	treemap(selection);
 };
 
-function attachButtons () {
-	d3.selectAll('.nav button').on('click', function () {
-		var activateButton = function (name) {
-			d3.selectAll('.nav button').classed('active', function () {
-				return this.id == name;
-			});
-		};
-		activateButton(this.id);
-		treemap.colorAxis(this.id)
-			.width(window.innerWidth - 20)
-			.height(window.innerHeight - 60);
-		selection && treemap(selection);
-	});
-};
+function updateChart(metricName) {
+	treemap.colorAxis(metricName)
+		.width($('.chart-container').width())
+		.height($('.chart-container').height());
+	if (selection) treemap(selection);
+}
 
-d3.select('#metricFile').on('change', loadMetricFile);
-attachButtons();
+$(function() {
+	builder = treemapDataBuilder();
+	fxcopParser = fxcopParser(builder);
+	treemap = treemapChart().sizeAxis('lines').colorAxis('lines');
+	navigation.fileLoaded(parseMetricFile).chartChanged(updateChart)();
+});
 	</script>
 </body>
 </html>

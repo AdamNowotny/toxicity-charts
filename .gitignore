@@ -4,5 +4,5 @@ obj
 _ReSharper.*
 ToxicityReport.suo
 
-# mstest test results
-TestResults
+# system specific
+.DS_Store

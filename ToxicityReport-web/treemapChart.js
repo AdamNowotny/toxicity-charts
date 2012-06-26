@@ -2,7 +2,7 @@ var treemapChart = function () {
 
 	var width = 700,
 		height = 400,
-		namespaceColorScale = d3.scale.linear().range(['white', 'black']),
+		namespaceColorScale = d3.scale.linear().range(['#d9d9d9', 'black']),
 		classColor = d3.scale.linear().range(['white', 'red', 'black']),
 		colorAxis = 'lines',
 		sizeAxis = 'lines',
@@ -50,7 +50,7 @@ var treemapChart = function () {
 				.call(cell);
 			chart.exit().remove();
 		});
-	};
+	}
 
 	var content = function (d) {
 		return d.children ? d.name : escape(d.name) + '<br/>' + d3.round(d[colorAxis], 3);
@@ -65,15 +65,16 @@ var treemapChart = function () {
 
 	var cellTextColor = function (d) {
 		var color = d[colorAxis] > maxMetric[colorAxis] ? 'white' : 'black';
-		return d.children ? "white" : color;
+		return d.children ? 'white' : color;
 	};
 
 	var cell = function () {
 		this.style('left', function (d) { return d.x + 'px'; })
-		  .style('top', function (d) { return d.y + 'px'; })
-		  .style('width', function (d) { return Math.max(0, d.dx - 1) + 'px'; })
-		  .style('height', function (d) { return Math.max(0, d.dy - 1) + 'px'; });
+			.style('top', function (d) { return d.y + 'px'; })
+			.style('width', function (d) { return Math.max(0, d.dx - 1) + 'px'; })
+			.style('height', function (d) { return Math.max(0, d.dy - 1) + 'px'; });
 	};
+	
 	treemapChart.colorAxis = function (value) {
 		if (!arguments.length) return colorAxis;
 		colorAxis = value;

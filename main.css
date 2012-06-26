@@ -6,6 +6,10 @@
 	bottom: 20px;
 }
 
+.back {
+  z-index: -10;
+}
+
 .chart {
     position: relative;
 }

@@ -13,7 +13,7 @@ var navigation = (function ($) {
 		var file = d3.event.target.files[0];
 		var reader = new FileReader();
 		reader.onload = function (e) {
-			fileLoaded(e.target.result);
+			fileLoaded(file.name, e.target.result);
 		};
 		reader.readAsText(file);
 	}

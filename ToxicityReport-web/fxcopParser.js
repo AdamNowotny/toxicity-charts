@@ -1,24 +1,24 @@
-﻿function fxcopParser (jsonBuilder) {
+﻿var fxcopParser = function (jsonBuilder) {
 
-	var threshold = {
-		'LinesOfCode': 30,
-		'CyclomaticComplexity': 10,
-		'ClassCoupling': 30
-	};
+	var ignoredFiles = ['generated.cs', 'designer.cs', 'reference.cs', 'assemblyInfo.cs'],
+		threshold = {
+			'LinesOfCode': 30,
+			'CyclomaticComplexity': 10,
+			'ClassCoupling': 30
+		};
 
-	var json = jsonBuilder;
+	function fxcopParser (appName, xmlString) {
+		var xml = $($.parseXML(xmlString));
+		if (!isValidFile(xml)) return null;
+		return createJson(appName, xml.find('Module'));
+	}
 
-	var parse = function (xmlString) {
-		var xmlDoc = $.parseXML(xmlString);
-		var xml = $(xmlDoc);
-		if (xml.find('CodeMetricsReport').length === 0) {
-			return null;
-		}
-		return createJson(xml.find('Module'));
-	};
+	function isValidFile (xml) {
+		return xml.find('CodeMetricsReport').length !== 0;
+	}
 
-	var createJson = function (xml) {
-		jsonBuilder.initRoot(xml.attr('Name'));
+	var createJson = function (appName, xml) {
+		jsonBuilder.initRoot(appName);
 		xml.find('Type').each(function (index, value) {
 			addType($(value));
 		});
@@ -62,12 +62,9 @@
 
 	var isMemberValid = function (index) {
 		var fileName = $(this).attr('File');
-		var ignoredFiles = ['generated.cs', 'designer.cs', 'reference.cs', 'assemblyInfo.cs'];
 		return fileName && !fileName.endsWithAny(ignoredFiles);
 	};
 
-	return {
-		parse: parse
-	};
+	return fxcopParser;
 
-}
+};

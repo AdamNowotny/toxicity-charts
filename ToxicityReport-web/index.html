@@ -57,9 +57,9 @@ var fxcopParser;
 var treemap;
 var selection;
 
-function parseMetricFile(content) {
+function parseMetricFile(filename, content) {
 	$('#chart').html('');
-	var treemapData = fxcopParser.parse(content);
+	var treemapData = fxcopParser(filename, content);
 	treemap.depth(builder.getDepth(treemapData))
 		.width($('.chart-container').width())
 		.height($('.chart-container').height());

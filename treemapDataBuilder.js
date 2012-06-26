@@ -1,4 +1,4 @@
-﻿var treemapDataBuilder = function () {
+﻿define(['jquery'], function ($) {
 
 	var json;
 
@@ -7,11 +7,11 @@
 			name: appName,
 			children: []
 		};
-	}
+	};
 
 	var addNode = function (nodePath, nodeName, properties) {
 		var segments = nodePath.split('.');
-		var node = (segments.length == 0) ? json : getPathNode(segments, json);
+		var node = (segments.length === 0) ? json : getPathNode(segments, json);
 		var leafNode = {
 			name: nodeName
 		};
@@ -27,14 +27,14 @@
 			maxChildDepth = Math.max(maxChildDepth, childDepth);
 		}
 		return maxChildDepth + 1;
-	};
+	}
 
 	var getPathNode = function (segments, subTree) {
 		var node = subTree;
 		for (var level = 0; level < segments.length; level++) {
 			var segmentName = segments[level];
 			node = getNode(node.children, segmentName) || createNode(node.children, segmentName);
-		};
+		}
 		return node;
 	};
 
@@ -43,7 +43,7 @@
 		nodes.forEach(function (child) {
 			if (child.name == name) {
 				node = child;
-			};
+			}
 		});
 		return node;
 	};
@@ -56,8 +56,8 @@
 		nodes.push(node);
 		nodes.sort(function (a, b) {
 			return ((a.lines < b.lines) ?
-	                -1 :
-	                ((a.lines > b.lines) ? 1 : 0));
+					-1 :
+					((a.lines > b.lines) ? 1 : 0));
 		});
 		return node;
 	};
@@ -67,6 +67,6 @@
 		getDepth: getDepth,
 		initRoot: init,
 		addNode: addNode
-	}
+	};
 
-};
+});

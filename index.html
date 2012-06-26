@@ -5,6 +5,7 @@
 	<title>Toxicity Charts</title>
 	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" />
 	<link type="text/css" rel="stylesheet" href="main.css" />
+	<script type="text/javascript" src="lib/require-js/require.min.js"></script>
 </head>
 <body>
 	<div class="navbar navbar-fixed-top">
@@ -45,7 +46,7 @@
 		<p>How toxic is your code ?</p>
 		<ul>
 			<li>Install <a target="_blank" href="http://www.microsoft.com/en-us/download/details.aspx?id=9422">Visual Studio Code Metrics PowerTool</a></li>
-			<li>Create metrics XML file (<a href="https://github.com/AdamNowotny/toxicity-charts/raw/master/scripts/FxCopMetrics.bat">scripts/FxCopMetrics.bat</a> can be helpful</li>
+			<li>Create metrics XML file (<a href="https://github.com/AdamNowotny/toxicity-charts/raw/master/scripts/FxCopMetrics.bat">scripts/FxCopMetrics.bat</a> can be helpful)</li>
 			<li>Load the generated file using this page</li>
 		</ul>
 		<p>
@@ -63,46 +64,28 @@
 	<div class="chart-container back">
 		<div id="chart"></div>
 	</div>
-	<script type="text/javascript" src="lib/d3/d3.v2.min.js"></script>
-	<script type="text/javascript" src="lib/jquery/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="stringExtensions.js"></script>
 	<script type="text/javascript" src="arrayExtensions.js"></script>
-	<script type="text/javascript" src="treemapDataBuilder.js"></script>
-	<script type="text/javascript" src="fxcopParser.js"></script>
-	<script type="text/javascript" src="treemapChart.js"></script>
-	<script type="text/javascript" src="navigation.js"></script>
 	<script type="text/javascript">
-var builder;
-var fxcopParser;
-var treemap;
-var selection;
-
-function parseMetricFile(filename, content) {
-	$('#chart').html('');
-	var treemapData = fxcopParser(filename, content);
-		treemap.depth(builder.getDepth(treemapData))
-		.width($('.chart-container').width())
-		.height($('.chart-container').height());
-		selection = d3.select('#chart').data([treemapData]);
-	$('.hero-unit').slideUp('slow', function () {
-		treemap(selection);
+	require.config({
+		baseUrl: '.',
+		paths: {
+			jquery: 'lib/jquery/jquery-1.7.2.min',
+			d3Lib: 'lib/d3/d3.v2.min',
+			bootstrap: 'lib/bootstrap/js/bootstrap.min',
+			amdUtils: 'lib/amd-utils'
+		},
+		deps: [
+		// 	'jquery',
+		// 	'bootstrap'
+		]
 	});
-};
-
-function updateChart(metricName) {
-	treemap.colorAxis(metricName)
-		.width($('.chart-container').width())
-		.height($('.chart-container').height());
-	if (selection) treemap(selection);
-}
-
-$(function() {
-	builder = treemapDataBuilder();
-	fxcopParser = fxcopParser(builder);
-	treemap = treemapChart().sizeAxis('lines').colorAxis('lines');
-	navigation.fileLoaded(parseMetricFile).chartChanged(updateChart)();
-});
+	define('d3', ['d3Lib'], function () {
+		return d3;
+	})
+	require(['d3', 'mainModule'], function (d3Module, mainModule) {
+		mainModule();
+	});
 	</script>
 </body>
 </html>

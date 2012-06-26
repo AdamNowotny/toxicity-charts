@@ -1,4 +1,4 @@
-var treemapChart = function () {
+define(['d3'], function (d3) {
 
 	var width = 700,
 		height = 400,
@@ -114,4 +114,4 @@ var treemapChart = function () {
 
 	return treemapChart;
 
-};
+});

@@ -1,4 +1,4 @@
-﻿var fxcopParser = function (jsonBuilder) {
+﻿define(['jquery', 'treemapDataBuilder'], function ($, jsonBuilder) {
 
 	var ignoredFiles = ['generated.cs', 'designer.cs', 'reference.cs', 'assemblyInfo.cs'],
 		threshold = {
@@ -9,13 +9,13 @@
 
 	function fxcopParser (appName, xmlString) {
 		var xml = $($.parseXML(xmlString));
-		if (!isValidFile(xml)) return null;
+		if (!fxcopParser.isValidFile(xml)) return null;
 		return createJson(appName, xml.find('Module'));
 	}
 
-	function isValidFile (xml) {
+	fxcopParser.isValidFile = function (xml) {
 		return xml.find('CodeMetricsReport').length !== 0;
-	}
+	};
 
 	var createJson = function (appName, xml) {
 		jsonBuilder.initRoot(appName);
@@ -67,4 +67,4 @@
 
 	return fxcopParser;
 
-};
+});

@@ -1,4 +1,4 @@
-var navigation = (function ($) {
+define(['jquery', 'd3', 'bootstrap'], function ($, d3) {
 
 	var fileLoaded;
 	var chartChanged;
@@ -45,4 +45,4 @@ var navigation = (function ($) {
 
 	return navigation;
 
-})(jQuery);
+});

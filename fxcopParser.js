@@ -1,4 +1,4 @@
-﻿define(['jquery', 'treemapDataBuilder'], function ($, jsonBuilder) {
+﻿define(['jquery', 'treemapDataBuilder'], function ($, dataBuilder) {
 
 	var ignoredFiles = ['generated.cs', 'designer.cs', 'reference.cs', 'assemblyInfo.cs'],
 		threshold = {
@@ -18,11 +18,11 @@
 	};
 
 	var createJson = function (appName, xml) {
-		jsonBuilder.initRoot(appName);
+		dataBuilder.initRoot(appName);
 		xml.find('Type').each(function (index, value) {
 			addType($(value));
 		});
-		return jsonBuilder.json();
+		return dataBuilder.json();
 	};
 
 	var addType = function (typeNode) {
@@ -35,7 +35,7 @@
 			coupling: getNormalisedMetric(typeNode, 'ClassCoupling')
 		};
 		if (isAnyAboveLimit(properties)) {
-			jsonBuilder.addNode(namespaceName, typeName, properties);
+			dataBuilder.addNode(namespaceName, typeName, properties);
 		}
 	};
 

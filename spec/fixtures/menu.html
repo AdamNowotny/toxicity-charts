@@ -1,0 +1,36 @@
+﻿<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" href="#">Toxicity Charts</a>
+			<ul class="nav">
+				<li class="dropdown active" id="menu-treemap">
+					<a href="#menu-treemap" class="dropdown-toggle" data-toggle="dropdown">
+						Treemap
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="active" id="lines">
+							<a href="#">Lines</a>
+						</li>
+						<li id="linesPerMethod">
+							<a href="#">Lines per method</a>
+						</li>
+						<li id="complexity">
+							<a href="#">Complexity</a>
+						</li>
+						<li id="coupling">
+							<a href="#">Coupling</a>
+						</li>
+					</ul>
+				</li>
+				<li id="toxicity">
+					<a href="#">Toxicity</a>
+				</li>
+			</ul>
+			<form class="navbar-form pull-right">
+				<input type="file" id="metricFile" />
+			</form>
+			<div class="navbar-text pull-right">Load metrics:</div>
+		</div>
+	</div>
+</div>

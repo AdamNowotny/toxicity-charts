@@ -1,16 +1,30 @@
 define(['jquery', 'd3', 'bootstrap'], function ($, d3) {
 
-	var fileLoaded;
-	var chartChanged;
+	var activeChart = 'treemap',
+		activeMetric = 'lines',
+		fileLoaded,
+		chartChanged = function() {};
 
 	function navigation() {
 		$(".dropdown-toggle").dropdown();
 		attachTreemapMenu();
-		d3.select('#metricFile').on('change', fileChanged);
+		$("#toxicity").click(function () {
+			activeChart = 'toxicity';
+			activeMetric = null;
+			navigation.update();
+		});
+		$('#metricFile').change(fileChanged);
+	}
+
+	function activateItem (id) {
+		$('.nav li').removeClass('active');
+		var menuItem = $('#' + id);
+		menuItem.addClass('active');
+		menuItem.closest('.nav > li').addClass('active');
 	}
 
 	function fileChanged (evt) {
-		var file = d3.event.target.files[0];
+		var file = evt.target.files[0];
 		var reader = new FileReader();
 		reader.onload = function (e) {
 			fileLoaded(file.name, e.target.result);
@@ -19,15 +33,10 @@ define(['jquery', 'd3', 'bootstrap'], function ($, d3) {
 	}
 
 	function attachTreemapMenu () {
-		d3.selectAll('#menu-treemap .dropdown-menu li').on('click', function () {
-			var activateButton = function (name) {
-				d3.selectAll('#menu-treemap .dropdown-menu li').classed('active', function () {
-					return this.id == name;
-				});
-			};
-			$(this).closest('.nav > li').addClass('active');
-			activateButton(this.id);
-			chartChanged(this.id);
+		$('#menu-treemap li').click(function () {
+			activeChart = 'treemap';
+			activeMetric = this.id;
+			navigation.update();
 		});
 	}
 
@@ -41,6 +50,12 @@ define(['jquery', 'd3', 'bootstrap'], function ($, d3) {
 		if (!arguments.length) return chartChanged;
 		chartChanged = value;
 		return navigation;
+	};
+
+	navigation.update = function() {
+		var menuId = (activeMetric) ? activeMetric : activeChart;
+		activateItem(menuId);
+		chartChanged(activeChart, activeMetric);
 	};
 
 	return navigation;

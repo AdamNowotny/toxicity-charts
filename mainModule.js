@@ -4,32 +4,64 @@ define([
 	'treemapDataBuilder',
 	'fxcopParser',
 	'treemapChart',
-	'navigation'], function ($, d3, dataBuilder, parser, treemap, navigation) {
+	'toxicityChart',
+	'navigation'
+	], function ($, d3, dataBuilder, parser, treemap, toxicity, navigation) {
 
-	var selection;
+	var chartData,
+		selection = {
+			treemap : null,
+			toxicity : null,
+			clear : function () {
+				selection.treemap = null;
+				selection.toxicity = null;
+			}
+		};
 
 	function mainModule () {
-		treemap.sizeAxis('lines').colorAxis('lines');
 		navigation.fileLoaded(parseMetricFile).chartChanged(updateChart)();
 	}
 
 	function parseMetricFile(filename, content) {
-		$('#chart').html('');
-		var treemapData = parser(filename, content);
-			treemap.depth(dataBuilder.getDepth(treemapData))
-			.width($('.chart-container').width())
-			.height($('.chart-container').height());
-			selection = d3.select('#chart').data([treemapData]);
+		$('.chart').html('');
+		chartData = parser(filename, content);
+		selection.clear();
+		navigation.update();
+	}
+
+	function updateChart(name, /* optional */ metricName) {
+		if (!chartData) return;
 		$('.hero-unit').slideUp('slow', function () {
-			treemap(selection);
+			$('.chart:not(.' + name + ')').hide('slow');
+			$('.' + name).show('slow');
+			if (name === 'treemap') {
+				showTreemap(metricName);
+			}
+			if (name === 'toxicity') {
+				showToxicity();
+			}
 		});
 	}
 
-	function updateChart(metricName) {
-		treemap.colorAxis(metricName)
-			.width($('.chart-container').width())
+	function showTreemap (metric) {
+		treemap.colorAxis(metric);
+		if (!selection.treemap) {
+			selection.treemap = d3.select('.treemap').data([chartData]);
+			treemap.depth(dataBuilder.getDepth(selection.treemap));
+		}
+		treemap.width($('.chart-container').width())
 			.height($('.chart-container').height());
-		if (selection) treemap(selection);
+		treemap(selection.treemap);
+	}
+
+	function showToxicity () {
+		$('.toxicity').html('');
+		if (!selection.toxicity) {
+				selection.toxicity = d3.select('.toxicity').data([chartData]);
+		}
+		toxicity.width($('.chart-container').width())
+			.height($('.chart-container').height());
+		toxicity(selection.toxicity);
 	}
 
 	return mainModule;

@@ -33,6 +33,9 @@
 							</li>
 						</ul>
 					</li>
+					<li id="toxicity">
+						<a href="#">Toxicity</a>
+					</li>
 				</ul>
 				<form class="navbar-form pull-right">
 					<input type="file" id="metricFile" />
@@ -62,7 +65,8 @@
 		</p>
 	</div>
 	<div class="chart-container back">
-		<div id="chart"></div>
+		<div class="chart treemap"></div>
+		<div class="chart toxicity"></div>
 	</div>
 	<script type="text/javascript" src="stringExtensions.js"></script>
 	<script type="text/javascript" src="arrayExtensions.js"></script>
@@ -71,19 +75,14 @@
 		baseUrl: '.',
 		paths: {
 			jquery: 'lib/jquery/jquery-1.7.2.min',
-			d3Lib: 'lib/d3/d3.v2.min',
 			bootstrap: 'lib/bootstrap/js/bootstrap.min',
 			amdUtils: 'lib/amd-utils'
 		},
-		deps: [
-		// 	'jquery',
-		// 	'bootstrap'
-		]
 	});
-	define('d3', ['d3Lib'], function () {
+	define('d3', ['lib/d3/d3.v2.min'], function () {
 		return d3;
 	})
-	require(['d3', 'mainModule'], function (d3Module, mainModule) {
+	require(['d3', 'mainModule'], function (d3, mainModule) {
 		mainModule();
 	});
 	</script>

@@ -3,8 +3,7 @@ define(['d3'], function (d3) {
 	var width = 900,
 		height = 500,
 		labelsHeight = 15,
-		color = d3.interpolateRgb("#aad", "#556"),
-		chart = null;
+		color = d3.interpolateRgb("#aad", "#556");
 
 	function toxicityChart(selection) {
 		selection.each(function(data, i) {
@@ -18,7 +17,7 @@ define(['d3'], function (d3) {
 				y0 = function(d) { return height - d.y0 * height / maxY; },
 				y1 = function(d) { return height - (d.y + d.y0) * height / maxY; };
 
-			chart = d3.select(this)
+			var chart = d3.select(this)
 				.append("svg")
 				.attr("width", width)
 				.attr("height", height + labelsHeight);

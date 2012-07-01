@@ -2,24 +2,22 @@
 
 	var json;
 
-	var init = function (appName) {
-		json = {
+	function convert (data, appName) {
+		var json = {
 			name: appName,
 			children: []
 		};
+		$(data).each(function (i, d) { addNode(json, d); });
+		return json;
+	}
+
+	var addNode = function (json, nodeInfo) {
+		var segments = nodeInfo.namespace.split('.');
+		var deepestNode = (segments.length === 0) ? json : getPathNode(segments, json);
+		deepestNode.children.push(nodeInfo);
 	};
 
-	var addNode = function (nodePath, nodeName, properties) {
-		var segments = nodePath.split('.');
-		var node = (segments.length === 0) ? json : getPathNode(segments, json);
-		var leafNode = {
-			name: nodeName
-		};
-		$.extend(leafNode, properties);
-		node.children.push(leafNode);
-	};
-
-	function getDepth(tree) {
+	convert.getDepth = function (tree) {
 		if (!tree.children) return 0;
 		var maxChildDepth = 0;
 		for (var i = 0; i < tree.children.length; i++) {
@@ -27,7 +25,7 @@
 			maxChildDepth = Math.max(maxChildDepth, childDepth);
 		}
 		return maxChildDepth + 1;
-	}
+	};
 
 	var getPathNode = function (segments, subTree) {
 		var node = subTree;
@@ -62,11 +60,6 @@
 		return node;
 	};
 
-	return {
-		json: function () { return json; },
-		getDepth: getDepth,
-		initRoot: init,
-		addNode: addNode
-	};
+	return convert;
 
 });

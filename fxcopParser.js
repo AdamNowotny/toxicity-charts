@@ -7,36 +7,36 @@
 			'ClassCoupling': 30
 		};
 
-	function fxcopParser (appName, xmlString) {
+	function fxcopParser (xmlString) {
 		var xml = $($.parseXML(xmlString));
 		if (!fxcopParser.isValidFile(xml)) return null;
-		return createJson(appName, xml.find('Module'));
+		return createJson(xml.find('Module'));
 	}
 
 	fxcopParser.isValidFile = function (xml) {
 		return xml.find('CodeMetricsReport').length !== 0;
 	};
 
-	var createJson = function (appName, xml) {
-		dataBuilder.initRoot(appName);
+	var createJson = function (xml) {
+		var json = [];
 		xml.find('Type').each(function (index, value) {
-			addType($(value));
+			var type = createType($(value));
+			if (isAnyAboveLimit(type)) {
+				json.push(type);
+			}
 		});
-		return dataBuilder.json();
+		return json;
 	};
 
-	var addType = function (typeNode) {
-		var namespaceName = typeNode.closest('Namespace').attr('Name');
-		var typeName = typeNode.attr('Name');
-		var properties = {
+	var createType = function (typeNode) {
+		return {
+			namespace: typeNode.closest('Namespace').attr('Name'),
+			name: typeNode.attr('Name'),
 			lines: getLines(typeNode),
 			linesPerMethod: getNormalisedMetric(typeNode, 'LinesOfCode'),
 			complexity: getNormalisedMetric(typeNode, 'CyclomaticComplexity'),
 			coupling: getNormalisedMetric(typeNode, 'ClassCoupling')
 		};
-		if (isAnyAboveLimit(properties)) {
-			dataBuilder.addNode(namespaceName, typeName, properties);
-		}
 	};
 
 	var isAnyAboveLimit = function (properties) {
@@ -46,7 +46,8 @@
 	};
 
 	var getLines = function (typeNode) {
-		return typeNode.find('> Metrics Metric[Name=LinesOfCode]').attr('Value').replace(',', '');
+		var linesValue = typeNode.find('> Metrics Metric[Name=LinesOfCode]').attr('Value').replace(',', '');
+		return parseInt(linesValue, 10);
 	};
 
 	var getNormalisedMetric = function (typeNode, metricName) {

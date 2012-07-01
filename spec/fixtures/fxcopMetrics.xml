@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeMetricsReport Version="10.0">
+  <Targets>
+    <Target Name="c:\Devel\ToxicityReport\nunit\src\NUnit-2.6.0.12051\bin\Debug\framework\nunit.framework.dll">
+      <Modules>
+        <Module Name="nunit.framework.dll" AssemblyVersion="2.6.0.0">
+          <Metrics>
+            <Metric Name="MaintainabilityIndex" Value="86" />
+            <Metric Name="CyclomaticComplexity" Value="2,073" />
+            <Metric Name="ClassCoupling" Value="212" />
+            <Metric Name="DepthOfInheritance" Value="5" />
+            <Metric Name="LinesOfCode" Value="3,305" />
+          </Metrics>
+          <Namespaces>
+            <Namespace Name="NUnit.Framework.Constraints">
+              <Metrics>
+                <Metric Name="MaintainabilityIndex" Value="82" />
+                <Metric Name="CyclomaticComplexity" Value="1,100" />
+                <Metric Name="ClassCoupling" Value="166" />
+                <Metric Name="DepthOfInheritance" Value="4" />
+                <Metric Name="LinesOfCode" Value="1,981" />
+              </Metrics>
+              <Types>
+                <Type Name="PrefixConstraint">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="80" />
+                    <Metric Name="CyclomaticComplexity" Value="2" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="2" />
+                    <Metric Name="LinesOfCode" Value="3" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="PrefixConstraint(IResolveConstraint)" File="c:\Devel\ToxicityReport\nunit\src\NUnit-2.6.0.12051\src\NUnitFramework\framework\Constraints\PrefixConstraints.cs" Line="27">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="80" />
+                        <Metric Name="CyclomaticComplexity" Value="2" />
+                        <Metric Name="ClassCoupling" Value="2" />
+                        <Metric Name="LinesOfCode" Value="3" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="AttributeConstraint">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="73" />
+                    <Metric Name="CyclomaticComplexity" Value="10" />
+                    <Metric Name="ClassCoupling" Value="8" />
+                    <Metric Name="DepthOfInheritance" Value="3" />
+                    <Metric Name="LinesOfCode" Value="327" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="AttributeConstraint(Type, Constraint)" File="c:\Devel\ToxicityReport\nunit\src\NUnit-2.6.0.12051\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs" Line="76">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="74" />
+                        <Metric Name="CyclomaticComplexity" Value="2" />
+                        <Metric Name="ClassCoupling" Value="5" />
+                        <Metric Name="LinesOfCode" Value="45" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Matches(object) : bool" File="c:\Devel\ToxicityReport\nunit\src\NUnit-2.6.0.12051\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs" Line="92">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="62" />
+                        <Metric Name="CyclomaticComplexity" Value="3" />
+                        <Metric Name="ClassCoupling" Value="6" />
+                        <Metric Name="LinesOfCode" Value="202" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="WriteDescriptionTo(MessageWriter) : void" File="c:\Devel\ToxicityReport\nunit\src\NUnit-2.6.0.12051\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs" Line="112">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="71" />
+                        <Metric Name="CyclomaticComplexity" Value="3" />
+                        <Metric Name="ClassCoupling" Value="5" />
+                        <Metric Name="LinesOfCode" Value="50" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="WriteActualValueTo(MessageWriter) : void" File="c:\Devel\ToxicityReport\nunit\src\NUnit-2.6.0.12051\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs" Line="126">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="2" />
+                        <Metric Name="LinesOfCode" Value="10" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="GetStringRepresentation() : string" File="c:\Devel\ToxicityReport\nunit\src\NUnit-2.6.0.12051\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs" Line="134">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="85" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="3" />
+                        <Metric Name="LinesOfCode" Value="20" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+              </Types>
+            </Namespace>
+          </Namespaces>
+        </Module>
+      </Modules>
+    </Target>
+  </Targets>
+</CodeMetricsReport>

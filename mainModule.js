@@ -1,14 +1,13 @@
 define([
 	'jquery',
 	'd3',
-	'treemapDataBuilder',
 	'fxcopParser',
 	'treemapDataBuilder',
 	'treemapChart',
 	'toxicityDataBuilder',
 	'toxicityChart',
 	'navigation'
-	], function ($, d3, dataBuilder, parser, treemapDataBuilder, treemap, toxicityDataBuilder, toxicity, navigation) {
+	], function ($, d3, parser, treemapDataBuilder, treemap, toxicityDataBuilder, toxicity, navigation) {
 
 	var fxcopData,
 		selection = {
@@ -32,8 +31,8 @@ define([
 		if (!fxcopData) return;
 		$('.hero-unit').slideUp('slow', function () {
 			var selector = '.' + name;
-			$('.chart :not('+ selector + ')').fadeOut('slow');
-			$('.legend :not('+ selector + ')').fadeOut('slow');
+			$('.chart:not('+ selector + ')').fadeOut('slow');
+			$('.legend:not('+ selector + ')').fadeOut('slow');
 			$(selector).addClass('back').fadeIn('fast').removeClass('back');
 			if (name === 'treemap') {
 				showTreemap(metricName);
@@ -47,7 +46,7 @@ define([
 	function loadTreemap (fxcopData, filename) {
 		var treemapData = treemapDataBuilder(fxcopData, filename);
 		selection.treemap = d3.select('.treemap').data([treemapData]);
-		treemap.depth(dataBuilder.getDepth(selection.treemap));
+		treemap.depth(treemapDataBuilder.getDepth(treemapData));
 	}
 
 	function loadToxicity (fxcopData) {

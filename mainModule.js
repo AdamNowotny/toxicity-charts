@@ -21,7 +21,7 @@ define([
 	}
 
 	function parseMetricFile(filename, content) {
-		$('.chart').html('');
+		$('.chart, .legend').html('');
 		fxcopData = parser(content);
 		loadTreemap(fxcopData, filename);
 		loadToxicity(fxcopData);
@@ -32,8 +32,9 @@ define([
 		if (!fxcopData) return;
 		$('.hero-unit').slideUp('slow', function () {
 			var selector = '.' + name;
-			$('.chart:not('+ selector + ')').hide('slow');
-			$(selector).show('slow');
+			$('.chart :not('+ selector + ')').fadeOut('slow');
+			$('.legend :not('+ selector + ')').fadeOut('slow');
+			$(selector).addClass('back').fadeIn('fast').removeClass('back');
 			if (name === 'treemap') {
 				showTreemap(metricName);
 			}

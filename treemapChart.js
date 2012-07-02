@@ -87,12 +87,6 @@ define(['d3'], function (d3) {
 		return treemapChart;
 	};
 
-	treemapChart.selection = function (value) {
-		if (!arguments.length) return selection;
-		selection = value;
-		return treemapChart;
-	};
-
 	treemapChart.depth = function (value) {
 		if (!arguments.length) return depth;
 		depth = value;

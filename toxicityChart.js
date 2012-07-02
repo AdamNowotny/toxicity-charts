@@ -3,7 +3,7 @@ define(['d3'], function (d3) {
 	var width = 900,
 		height = 500,
 		labelsHeight = 15,
-		color = d3.interpolateRgb("#aad", "#556");
+		color = d3.scale.category10();
 
 	function toxicityChart(selection) {
 		selection.each(function(data, i) {
@@ -11,11 +11,21 @@ define(['d3'], function (d3) {
 				barsCount = data[0].values.length,
 					layersData = d3.layout.stack()
 					.values(function(d) { return d.values; })
+					.order('reverse')
 					(data),
 				maxY = maxBarValue(layersData),
 				x = function(d) { return d * width / barsCount;	},
 				y0 = function(d) { return height - d.y0 * height / maxY; },
 				y1 = function(d) { return height - (d.y + d.y0) * height / maxY; };
+
+			var legend = d3.select('.toxicity.legend')
+				.append('ul')
+				.selectAll('li')
+				.data(data)
+				.enter()
+				.append('li')
+				.text(function (d, i) { return d.displayMetric; })
+				.style("color", function(d, i) { return color(i / (layersCount - 1)); });
 
 			var chart = d3.select(this)
 				.append("svg")
@@ -41,7 +51,6 @@ define(['d3'], function (d3) {
 				.attr("height", 0)
 				.transition()
 				.duration(1000)
-				.delay(function(d, i) { return i * 10; })
 				.attr("y", y1)
 				.attr("height", function(d) { return y0(d) - y1(d); });
 

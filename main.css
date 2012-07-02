@@ -8,11 +8,11 @@
 }
 
 .back {
-  z-index: -10;
+  z-index: -1;
 }
 
 .chart {
-    position: relative;
+    position: absolute;
 }
 
 .cell {
@@ -21,4 +21,11 @@
   overflow: hidden;
   position: absolute;
   text-indent: 2px;
+}
+
+.legend {
+  position: absolute;
+  top: 60px;
+  right: 50px;
+  list-style-type: square;
 }

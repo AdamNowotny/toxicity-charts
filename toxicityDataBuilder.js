@@ -1,9 +1,14 @@
 define(['jquery'], function ($) {
 
-	var metrics = ['complexity', 'lines'];
+	var metrics = ['linesPerMethod', 'complexity', 'coupling'];
+		descriptions = {
+			linesPerMethod: 'Lines per method',
+			complexity: 'Cyclomatic complexity',
+			coupling: 'Class coupling'
+		};
 
 	function convert (data) {
-		var extractMetric = function (i, metricName) {
+		var metricLayer = function (i, metricName) {
 			var stackEntry = function (i, d) {
 				return {
 					x: i,
@@ -13,13 +18,13 @@ define(['jquery'], function ($) {
 			};
 			return {
 				metric: metricName,
+				displayMetric: descriptions[metricName],
 				values: $(data).map(stackEntry).toArray()
 			};
 		};
 
-		return $(metrics).map(extractMetric).toArray();
+		return $(metrics).map(metricLayer).toArray();
 	}
 
 	return convert;
-
 });

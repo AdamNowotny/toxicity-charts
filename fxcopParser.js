@@ -10,14 +10,18 @@
 	function fxcopParser (xmlString) {
 		var xml = $($.parseXML(xmlString));
 		if (!fxcopParser.isValidFile(xml)) return null;
-		return createJson(xml.find('Module'));
+		var json = parse(xml.find('Module'));
+		json.sort(function (a, b) {
+			return b.toxicity - a.toxicity;
+		});
+		return json;
 	}
 
 	fxcopParser.isValidFile = function (xml) {
 		return xml.find('CodeMetricsReport').length !== 0;
 	};
 
-	var createJson = function (xml) {
+	var parse = function (xml) {
 		var json = [];
 		xml.find('Type').each(function (index, value) {
 			var type = createType($(value));
@@ -29,7 +33,7 @@
 	};
 
 	var createType = function (typeNode) {
-		return {
+		var newType = {
 			namespace: typeNode.closest('Namespace').attr('Name'),
 			name: typeNode.attr('Name'),
 			lines: getLines(typeNode),
@@ -37,6 +41,8 @@
 			complexity: getNormalisedMetric(typeNode, 'CyclomaticComplexity'),
 			coupling: getNormalisedMetric(typeNode, 'ClassCoupling')
 		};
+		newType.toxicity = newType.linesPerMethod + newType.complexity + newType.coupling;
+		return newType;
 	};
 
 	var isAnyAboveLimit = function (properties) {

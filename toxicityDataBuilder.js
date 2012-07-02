@@ -18,7 +18,7 @@ define(['jquery'], function ($) {
 			};
 			return {
 				metric: metricName,
-				displayMetric: descriptions[metricName],
+				key: descriptions[metricName],
 				values: $(data).map(stackEntry).toArray()
 			};
 		};

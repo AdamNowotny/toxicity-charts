@@ -1,77 +1,24 @@
-define(['d3'], function (d3) {
+define(['d3', 'nvd3'], function (d3, nvd3) {
 
 	var width = 900,
 		height = 500,
 		labelsHeight = 15,
 		color = d3.scale.category10();
 
-	function toxicityChart(selection) {
+	function toxicityChart (selection) {
 		selection.each(function(data, i) {
-			var layersCount = data.length,
-				barsCount = data[0].values.length,
-					layersData = d3.layout.stack()
-					.values(function(d) { return d.values; })
-					.order('reverse')
-					(data),
-				maxY = maxBarValue(layersData),
-				x = function(d) { return d * width / barsCount;	},
-				y0 = function(d) { return height - d.y0 * height / maxY; },
-				y1 = function(d) { return height - (d.y + d.y0) * height / maxY; };
-
-			var legend = d3.select('.toxicity.legend')
-				.append('ul')
-				.selectAll('li')
-				.data(data)
-				.enter()
-				.append('li')
-				.text(function (d, i) { return d.displayMetric; })
-				.style("color", function(d, i) { return color(i / (layersCount - 1)); });
-
-			var chart = d3.select(this)
+			var svg = selection
 				.append("svg")
 				.attr("width", width)
-				.attr("height", height + labelsHeight);
-
-			var layers = chart.selectAll("g.layer")
-				.data(layersData)
-				.enter().append("g")
-				.style("fill", function(d, i) { return color(i / (layersCount - 1)); })
-				.attr("class", "layer");
-
-			var bars = layers.selectAll("g.bar")
-				.data(function(d) { return d.values; })
-				.enter().append("g")
-				.attr("class", "bar")
-				.attr("transform", function(d) { return "translate(" + x(d.x) + ",0)"; });
-
-			bars.append("rect")
-				.attr("width", x(0.9))
-				.attr("x", 0)
-				.attr("y", height)
-				.attr("height", 0)
-				.transition()
-				.duration(1000)
-				.attr("y", y1)
-				.attr("height", function(d) { return y0(d) - y1(d); });
-
-			var labels = chart.selectAll("text.label")
-				.data(layersData[0].values)
-				.enter().append("text")
-				.attr("class", "label")
-				.attr("x", function (d, i) { return x(i); })
-				.attr("y", height + 6)
-				.attr("dx", x(0.45))
-				.attr("dy", ".71em")
-				.attr("text-anchor", "middle")
-				.text(function(d, i) { return d.name; });
-		});
-	}
-
-	function maxBarValue (data) {
-		return d3.max(data, function(d) {
-			return d3.max(d.values, function(d) {
-				return d.y0 + d.y;
-			});
+				.attr("height", height);
+			var chart = nv.models.multiBarChart()
+				.margin({top: 0, right: 0, bottom: labelsHeight, left: 40})
+				.color(color.range())
+				.showControls(false)
+				.stacked(true)
+				.xAxisEnabled(false);
+			chart.yAxis.tickFormat(function (d) { return d3.round(d, 2); });
+			selection.select('svg').transition().duration(500).call(chart);
 		});
 	}
 

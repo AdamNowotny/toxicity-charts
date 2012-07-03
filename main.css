@@ -7,25 +7,61 @@
   overflow: hidden;
 }
 
-.back {
-  z-index: -1;
-}
+  .back {
+    z-index: -1;
+  }
 
-.chart {
+  .chart {
+      position: absolute;
+  }
+
+  .cell {
+    font: 10px sans-serif;
+    line-height: 12px;
+    overflow: hidden;
     position: absolute;
-}
+    text-indent: 2px;
+  }
 
-.cell {
-  font: 10px sans-serif;
-  line-height: 12px;
-  overflow: hidden;
-  position: absolute;
-  text-indent: 2px;
-}
+  .legend {
+    position: absolute;
+    top: 60px;
+    right: 50px;
+    list-style-type: square;
+  }
 
-.legend {
-  position: absolute;
-  top: 60px;
-  right: 50px;
-  list-style-type: square;
-}
+  .stats {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+  }
+
+    .stats td {
+      padding: 4px;
+    }
+
+    .stats .number {
+      text-align: center;
+    }
+
+    .stats .toxicity {
+      width: 100px;
+      text-align: center;
+    }
+
+    .stats .lines {
+      width: 100px;
+      text-align: center;  
+    }
+
+    .stats .lines-per-method {
+      width: 130px;  
+    }
+
+    .stats .complexity {
+      width: 161px;  
+    }
+
+    .stats .coupling {
+      width: 104px;  
+    }

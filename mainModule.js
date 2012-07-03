@@ -65,7 +65,7 @@ define([
 		$('.toxicity').html('');
 		toxicity.width($('.chart-container').width())
 			.height($('.chart-container').height());
-		toxicity(selection.toxicity);
+		toxicity(selection.toxicity, fxcopData);
 	}
 
 	return mainModule;

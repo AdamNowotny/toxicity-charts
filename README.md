@@ -1,7 +1,7 @@
-ToxicityReport
-==============
+Toxicity Charts
+===============
 
-Show toxicity metrics for .NET code
+Shows code metrics for .NET code
 
 How to use
 ==========

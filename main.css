@@ -5,6 +5,7 @@
 	right: 20px;
 	bottom: 20px;
   overflow: hidden;
+  z-index: -1;
 }
 
   .back {

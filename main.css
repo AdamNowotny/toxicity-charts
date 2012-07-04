@@ -40,6 +40,10 @@
       padding: 4px;
     }
 
+    .stats .name {
+      text-align: center;
+    }
+
     .stats .number {
       text-align: center;
     }

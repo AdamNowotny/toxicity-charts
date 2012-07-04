@@ -36,9 +36,9 @@ define(['d3', 'nvd3'], function (d3, nvd3) {
 		table.append('col').attr('class', 'complexity');
 		table.append('col').attr('class', 'coupling');
 		var thead = table.append("thead");
-		thead.append("th").text("Class name");
-		thead.append("th").text("Toxicity");
-		thead.append("th").text("Lines");
+		thead.append("th").text("Class name").attr('class', 'name');
+		thead.append("th").text("Toxicity").attr('class', 'toxicity');
+		thead.append("th").text("Lines").attr('class', 'lines');
 		thead.append("th");
 		thead.append("th");
 		thead.append("th");

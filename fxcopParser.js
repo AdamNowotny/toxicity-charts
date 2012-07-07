@@ -1,4 +1,4 @@
-﻿define(['jquery', 'treemapDataBuilder'], function ($, dataBuilder) {
+﻿define(['jquery'], function ($) {
 
 	var ignoredFiles = ['generated.cs', 'designer.cs', 'reference.cs', 'assemblyInfo.cs'],
 		threshold = {

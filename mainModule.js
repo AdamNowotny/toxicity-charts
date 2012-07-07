@@ -5,7 +5,7 @@ define([
 	'treemapDataBuilder',
 	'treemapChart',
 	'toxicityDataBuilder',
-	'toxicityChart',
+	'feature!toxicityChart',
 	'navigation'
 	], function ($, d3, parser, treemapDataBuilder, treemap, toxicityDataBuilder, toxicity, navigation) {
 

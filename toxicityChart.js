@@ -1,59 +1,67 @@
-define(['d3', 'nvd3'], function (d3, nvd3) {
+define(['d3'], function (d3) {
 
 	var width = 900,
 		height = 500,
 		labelsHeight = 15,
 		color = d3.scale.category10();
 
-	function toxicityChart (selection, fxcop) {
+	function toxicityChart(selection) {
 		selection.each(function(data, i) {
-			var svg = selection
+			var layersCount = data.length,
+				barsCount = data[0].values.length,
+					layersData = d3.layout.stack()
+					.values(function(d) { return d.values; })
+					.order('reverse')
+					(data),
+				maxY = maxBarValue(layersData),
+				x = function(d) { return d * width / barsCount;	},
+				y0 = function(d) { return height - d.y0 * height / maxY; },
+				y1 = function(d) { return height - (d.y + d.y0) * height / maxY; };
+
+			var legend = d3.select('.toxicity.legend')
+				.append('ul')
+				.selectAll('li')
+				.data(data)
+				.enter()
+				.append('li')
+				.text(function (d, i) { return d.displayMetric; })
+				.style("color", function(d, i) { return color(i / (layersCount - 1)); });
+
+			var chart = d3.select(this)
 				.append("svg")
 				.attr("width", width)
-				.attr("height", height);
-			var chart = nv.models.multiBarChart()
-				.margin({top: 0, right: 0, bottom: labelsHeight, left: 40})
-				.color(color.range())
-				.showControls(false)
-				.stacked(true)
-				.xAxisEnabled(false);
-			chart.yAxis.tickFormat(function (d) { return d3.round(d, 2); });
-			selection.select('svg').transition().duration(500).call(chart);
-			showStats(d3.select(this), fxcop.slice(0, 10));
+				.attr("height", height + labelsHeight);
+
+			var layers = chart.selectAll("g.layer")
+				.data(layersData)
+				.enter().append("g")
+				.style("fill", function(d, i) { return color(i / (layersCount - 1)); })
+				.attr("class", "layer");
+
+			var bars = layers.selectAll("g.bar")
+				.data(function(d) { return d.values; })
+				.enter().append("g")
+				.attr("class", "bar")
+				.attr("transform", function(d) { return "translate(" + x(d.x) + ",0)"; });
+
+			bars.append("rect")
+				.attr("width", x(0.9))
+				.attr("x", 0)
+				.attr("y", height)
+				.attr("height", 0)
+				.transition()
+				.duration(1000)
+				.attr("y", y1)
+				.attr("height", function(d) { return y0(d) - y1(d); });
 		});
 	}
 
-	function showStats(selection, data) {
-		var table = selection
-			.append('div')
-			.attr('class', 'stats')
-			.append('table')
-			.attr('class', 'table table-striped');
-		table.append('col').attr('class', 'name');
-		table.append('col').attr('class', 'toxicity');
-		table.append('col').attr('class', 'lines');
-		table.append('col').attr('class', 'lines-per-method');
-		table.append('col').attr('class', 'complexity');
-		table.append('col').attr('class', 'coupling');
-		var thead = table.append("thead");
-		thead.append("th").text("Class name").attr('class', 'name');
-		thead.append("th").text("Toxicity").attr('class', 'toxicity');
-		thead.append("th").text("Lines").attr('class', 'lines');
-		thead.append("th");
-		thead.append("th");
-		thead.append("th");
-		table.append('tbody').selectAll('tr')
-			.data(data)
-			.enter()
-			.append('tr')
-			.selectAll('td')
-			.data(function (d, i) {
-				return [ d.name, d.toxicity, d.lines, d.linesPerMethod, d.complexity, d.coupling ];
-			})
-			.enter()
-			.append('td')
-			.text(function (d, i) { return i === 0 ? d : d3.round(d, 2); })
-			.attr('class', function (d, i) { return i === 0 ? null : 'number'; });
+	function maxBarValue (data) {
+		return d3.max(data, function(d) {
+			return d3.max(d.values, function(d) {
+				return d.y0 + d.y;
+			});
+		});
 	}
 
 	toxicityChart.width = function (value) {

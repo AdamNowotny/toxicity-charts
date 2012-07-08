@@ -30,8 +30,8 @@ Treemap chart
 -------------
 Chart information: http://erik.doernenburg.com/2010/05/metrics-tree-maps/
 
-Lines of code in a class determines the size of the box.
-The color is dependent on the graph you choose:
+Lines of code in a class determines the _size_ of the box.
+The _color_ is dependent on the graph you choose:
 * white - 0 (all good here)
 * red - threshold (that's bad)
 * black - 4 times the threshold (that's scary)

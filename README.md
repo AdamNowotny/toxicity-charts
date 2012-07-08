@@ -26,20 +26,22 @@ How to use
 Screenshots
 ===========
 
-Treemap chart
--------------
+Treemap
+-------
+
 Chart information: http://erik.doernenburg.com/2010/05/metrics-tree-maps/
 
 Lines of code in a class determines the _size_ of the box.
 The _color_ is dependent on the graph you choose:
 * white - 0 (all good here)
-* red - threshold (that's bad)
+* red - threshold (getting bad)
 * black - 4 times the threshold (that's scary)
 
 <img src="https://github.com/AdamNowotny/toxicity-charts/raw/master/docs/treemap.png" alt="Treemap chart screenshot">
 
-Toxicity chart
---------------
+Toxicity
+--------
+
 Chart information: http://erik.doernenburg.com/2008/11/how-toxic-is-your-code/
 
 The higher the bar, the more toxic the class is. List of classes you should take a look at shown in the table.
@@ -48,13 +50,16 @@ The higher the bar, the more toxic the class is. List of classes you should take
 
 License
 =======
+
 This code is distributed under Apache License version 2.0
 
 Thanks
 ======
+
 * [Erik Dörnenburg](http://erik.doernenburg.com/) - descriptions of the graphs and how to calculate the values
 * [D3](http://d3js.org/) - used for treemap
 * [NVD3](http://nvd3.com/) - used multibar chart for toxicity
+* [AMD-feature](https://github.com/jensarps/AMD-feature) - plugin for Require-JS that adds support for feature toggles so I didn't have to use branches for experiments
 
 and the usual:
 

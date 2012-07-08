@@ -5,7 +5,7 @@
 	<title>Toxicity Charts</title>
 	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" />
 	<link type="text/css" rel="stylesheet" href="main.css" />
-	<script type="text/javascript" src="lib/require-js/require.min.js"></script>
+	<script type="text/javascript" data-main="mainModule" src="lib/require-js/require.min.js"></script>
 	<script type="text/javascript">
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-33146314-1']);
@@ -86,26 +86,5 @@
 		<div class="chart treemap"></div>
 		<div class="chart toxicity"></div>
 	</div>
-	<script type="text/javascript">
-	require.config({
-		baseUrl: '.',
-		paths: {
-			jquery: [ 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min', 'lib/jquery/jquery-1.7.2' ],
-			bootstrap: [ 'http://current.bootstrapcdn.com/bootstrap-v204/js/bootstrap.min', 'lib/bootstrap/js/bootstrap.min' ],
-			d3: 'lib/d3/d3.v2.min',
-			nvd3: 'lib/nvd3/nv.d3.modified',
-			feature: 'lib/require-js/feature',
-			implementations: 'featuresConfig'
-		},
-		deps: [	'arrayExtensions', 'stringExtensions' ],
-		shim: {
-			d3: { exports: 'd3'	},
-			bootstrap: [ 'jquery' ]
-		}
-	});
-	require(['mainModule'], function (mainModule) {
-		mainModule();
-	});
-	</script>
 </body>
 </html>

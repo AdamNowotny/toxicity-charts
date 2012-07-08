@@ -1,72 +1,19 @@
-define([
-	'jquery',
-	'd3',
-	'fxcopParser',
-	'treemapDataBuilder',
-	'treemapChart',
-	'toxicityDataBuilder',
-	'feature!toxicityChart',
-	'navigation'
-	], function ($, d3, parser, treemapDataBuilder, treemap, toxicityDataBuilder, toxicity, navigation) {
-
-	var fxcopData,
-		selection = {
-			treemap : null,
-			toxicity : null
-		};
-
-	function mainModule () {
-		navigation.fileLoaded(parseMetricFile).chartChanged(updateChart)();
+require.config({
+	baseUrl: 'src',
+	paths: {
+		jquery: [ 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min', '../lib/jquery/jquery-1.7.2' ],
+		bootstrap: [ 'http://current.bootstrapcdn.com/bootstrap-v204/js/bootstrap.min', '../lib/bootstrap/js/bootstrap.min' ],
+		d3: '../lib/d3/d3.v2.min',
+		nvd3: '../lib/nvd3/nv.d3.modified',
+		feature: '../lib/require-js/feature',
+		implementations: '../featuresConfig'
+	},
+	deps: [	'arrayExtensions', 'stringExtensions' ],
+	shim: {
+		d3: { exports: 'd3'	},
+		bootstrap: [ 'jquery' ]
 	}
-
-	function parseMetricFile(filename, content) {
-		$('.chart, .legend').html('');
-		fxcopData = parser(content);
-		loadTreemap(fxcopData, filename);
-		loadToxicity(fxcopData);
-		navigation.update();
-	}
-
-	function updateChart(name, /* optional */ metricName) {
-		if (!fxcopData) return;
-		$('.hero-unit').slideUp('slow', function () {
-			var selector = '.' + name;
-			$('.chart:not('+ selector + ')').fadeOut('slow');
-			$('.legend:not('+ selector + ')').fadeOut('slow');
-			$(selector).addClass('back').fadeIn('fast').removeClass('back');
-			if (name === 'treemap') {
-				showTreemap(metricName);
-			}
-			if (name === 'toxicity') {
-				showToxicity();
-			}
-		});
-	}
-
-	function loadTreemap (fxcopData, filename) {
-		var treemapData = treemapDataBuilder(fxcopData, filename);
-		selection.treemap = d3.select('.treemap').data([treemapData]);
-		treemap.depth(treemapDataBuilder.getDepth(treemapData));
-	}
-
-	function loadToxicity (fxcopData) {
-		var toxicityData = toxicityDataBuilder(fxcopData);
-		selection.toxicity = d3.select('.toxicity').data([toxicityData]);
-	}
-
-	function showTreemap (metric) {
-		treemap.colorAxis(metric);
-		treemap.width($('.chart-container').width())
-			.height($('.chart-container').height());
-		treemap(selection.treemap);
-	}
-
-	function showToxicity () {
-		$('.toxicity').html('');
-		toxicity.width($('.chart-container').width())
-			.height($('.chart-container').height());
-		toxicity(selection.toxicity, fxcopData);
-	}
-
-	return mainModule;
+});
+require(['app'], function (app) {
+	app();
 });

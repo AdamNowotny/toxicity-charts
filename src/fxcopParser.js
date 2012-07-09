@@ -1,5 +1,7 @@
-﻿define(['jquery'], function ($) {
+﻿define(['jquery', 'amdutils/string/endsWith'], function ($, endsWith) {
 
+	'use strict';
+	
 	var ignoredFiles = ['generated.cs', 'designer.cs', 'reference.cs', 'assemblyInfo.cs'],
 		threshold = {
 			'LinesOfCode': 30,
@@ -85,12 +87,6 @@
 		return fileName && !ignoredFiles.some(function fileIgnored(value) {
 			return endsWith(fileName, value);
 		});
-	}
-
-	function endsWith(str, suffix) {
-		str = (str || '');
-		suffix = (suffix || '');
-		return str.indexOf(suffix, str.length - suffix.length) !== -1;
 	}
 
 	return fxcopParser;

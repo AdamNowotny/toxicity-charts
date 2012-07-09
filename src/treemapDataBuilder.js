@@ -1,5 +1,7 @@
 ﻿define(['jquery'], function ($) {
 
+	'use strict';
+	
 	var json;
 
 	function convert (data, appName) {

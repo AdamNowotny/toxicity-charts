@@ -1,5 +1,7 @@
 define(['d3', 'nvd3'], function (d3, nvd3) {
 
+	'use strict';
+
 	var width = 900,
 		height = 500,
 		labelsHeight = 15,
@@ -11,7 +13,7 @@ define(['d3', 'nvd3'], function (d3, nvd3) {
 				.append("svg")
 				.attr("width", width)
 				.attr("height", height);
-			var chart = nv.models.multiBarChart()
+			var chart = nvd3.models.multiBarChart()
 				.margin({top: 0, right: 0, bottom: labelsHeight, left: 40})
 				.color(color.range())
 				.showControls(false)

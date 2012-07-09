@@ -6,11 +6,12 @@ require.config({
 		d3: '../lib/d3/d3.v2.min',
 		nvd3: '../lib/nvd3/nv.d3.modified',
 		feature: '../lib/require-js/feature',
+		amdutils: '../lib/amd-utils/src',
 		implementations: '../featuresConfig'
 	},
-	deps: [	'arrayExtensions', 'stringExtensions' ],
 	shim: {
 		d3: { exports: 'd3'	},
+		nvd3: { exports: 'nv' },
 		bootstrap: [ 'jquery' ]
 	}
 });

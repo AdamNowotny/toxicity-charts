@@ -1,7 +1,10 @@
-define(['d3'], function (d3) {
+define(['d3', 'amdutils/string/escapeHtml'], function (d3, escapeHtml) {
+
+	'use strict';
 
 	var width = 700,
 		height = 400,
+		depth = 0,
 		namespaceColorScale = d3.scale.linear().range(['#d9d9d9', 'black']),
 		classColor = d3.scale.linear().range(['white', 'red', 'black']),
 		colorAxis = 'lines',
@@ -53,7 +56,7 @@ define(['d3'], function (d3) {
 	}
 
 	var content = function (d) {
-		return d.children ? d.name : escape(d.name) + '<br/>' + d3.round(d[colorAxis], 3);
+		return d.children ? d.name : escapeHtml(d.name) + '<br/>' + d3.round(d[colorAxis], 3);
 	};
 
 	var cellColor = function (d) {

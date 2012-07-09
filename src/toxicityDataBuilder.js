@@ -1,6 +1,8 @@
 define(['jquery'], function ($) {
 
-	var metrics = ['linesPerMethod', 'complexity', 'coupling'];
+	'use strict';
+
+	var metrics = ['linesPerMethod', 'complexity', 'coupling'],
 		descriptions = {
 			linesPerMethod: 'Lines per method',
 			complexity: 'Cyclomatic complexity',

@@ -1,5 +1,7 @@
 define(['jquery', 'd3', 'bootstrap'], function ($, d3) {
 
+	'use strict';
+	
 	var activeChart = 'treemap',
 		activeMetric = 'lines',
 		fileLoaded,

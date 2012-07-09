@@ -1,5 +1,7 @@
 define(['d3'], function (d3) {
 
+	'use strict';
+	
 	var width = 900,
 		height = 500,
 		labelsHeight = 15,

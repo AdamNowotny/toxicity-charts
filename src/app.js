@@ -9,6 +9,8 @@ define([
 	'navigation'
 	], function ($, d3, parser, treemapDataBuilder, treemap, toxicityDataBuilder, toxicity, navigation) {
 
+	'use strict';
+	
 	var fxcopData,
 		selection = {
 			treemap : null,

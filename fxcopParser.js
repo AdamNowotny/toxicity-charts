@@ -21,7 +21,7 @@
 		return xml.find('CodeMetricsReport').length !== 0;
 	};
 
-	var parse = function (xml) {
+	function parse (xml) {
 		var json = [];
 		xml.find('Type').each(function (index, value) {
 			var type = createType($(value));
@@ -30,9 +30,9 @@
 			}
 		});
 		return json;
-	};
+	}
 
-	var createType = function (typeNode) {
+	function createType (typeNode) {
 		var newType = {
 			namespace: typeNode.closest('Namespace').attr('Name'),
 			name: typeNode.attr('Name'),
@@ -43,20 +43,20 @@
 		};
 		newType.toxicity = newType.linesPerMethod + newType.complexity + newType.coupling;
 		return newType;
-	};
+	}
 
-	var isAnyAboveLimit = function (properties) {
+	function isAnyAboveLimit (properties) {
 		return (properties.linesPerMethod >= 1) ||
 			(properties.complexity >= 1) ||
 			(properties.coupling >= 1);
-	};
+	}
 
-	var getLines = function (typeNode) {
+	function getLines (typeNode) {
 		var linesValue = typeNode.find('> Metrics Metric[Name=LinesOfCode]').attr('Value').replace(',', '');
 		return parseInt(linesValue, 10);
-	};
+	}
 
-	var getNormalisedMetric = function (typeNode, metricName) {
+	function getNormalisedMetric (typeNode, metricName) {
 		var result = typeNode
 			.find('Member')
 			.filter(isMemberValid)
@@ -72,7 +72,7 @@
 				return parseFloat(first) + parseFloat(second);
 			}, 0);
 		return result;
-	};
+	}
 
 	function normalise(value, threshold) {
 		var raw = parseInt(value, 10) / threshold;
@@ -80,10 +80,18 @@
 		return normalisedValue;
 	}
 
-	var isMemberValid = function (index) {
+	function isMemberValid (index) {
 		var fileName = $(this).attr('File');
-		return fileName && !fileName.endsWithAny(ignoredFiles);
-	};
+		return fileName && !ignoredFiles.some(function fileIgnored(value) {
+			return endsWith(fileName, value);
+		});
+	}
+
+	function endsWith(str, suffix) {
+		str = (str || '');
+		suffix = (suffix || '');
+		return str.indexOf(suffix, str.length - suffix.length) !== -1;
+	}
 
 	return fxcopParser;
 

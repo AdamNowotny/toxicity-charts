@@ -61,11 +61,24 @@
 			.find('Member')
 			.filter(isMemberValid)
 			.find('Metric[Name=' + metricName + ']')
-			.map(function (index, metricNode) {
+			.toArray()
+			.map(function extractValue (metricNode, index) {
 				return $(metricNode).attr('Value');
-			}).toArray().normalise(threshold[metricName]).sum();
+			})
+			.map(function (value) {
+				return normalise(value, threshold[metricName]);
+			})
+			.reduce(function sum(first, second) {
+				return parseFloat(first) + parseFloat(second);
+			}, 0);
 		return result;
 	};
+
+	function normalise(value, threshold) {
+		var raw = parseInt(value, 10) / threshold;
+		var normalisedValue = (raw < 1) ? 0 : raw;
+		return normalisedValue;
+	}
 
 	var isMemberValid = function (index) {
 		var fileName = $(this).attr('File');

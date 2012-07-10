@@ -59,14 +59,19 @@ Thanks
 ======
 
 * [Erik Dörnenburg](http://erik.doernenburg.com/) - descriptions of the graphs and how to calculate the values
+
+Libraries used
+==============
+
 * [D3](http://d3js.org/) - used for treemap
 * [NVD3](http://nvd3.com/) - used multibar chart for toxicity
 * [AMD-feature](https://github.com/jensarps/AMD-feature) - plugin for Require-JS that adds support for feature toggles so I didn't have to use branches for experiments
 * HTML 5 FileReader
-
-and the usual:
-
 * [Require-JS](http://requirejs.org/)
 * [jQuery](http://jquery.com/)
 * [Twitter bootstrap](http://twitter.github.com/bootstrap/)
 * [Jasmine](http://pivotal.github.com/jasmine/)
+
+Build:
+* [grunt](https://github.com/cowboy/grunt)
+* [grunt-contrib](https://github.com/gruntjs/grunt-contrib) - clean, copy and requirejs tasks

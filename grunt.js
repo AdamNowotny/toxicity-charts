@@ -69,7 +69,6 @@ module.exports = function(grunt) {
         files: {
           'build': [
             'index.html',
-            'css/main.css',
             'lib/require-js/require.min.js',
             'lib/jquery/jquery-1.7.2.min.js',
             'lib/bootstrap/css/bootstrap.css',

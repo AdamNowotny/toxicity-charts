@@ -1,4 +1,7 @@
 define(['jquery', 'navigation'], function ($, navigation) {
+
+	'use strict';
+	
 	describe('navigation', function () {
 
 		var callback = jasmine.createSpy();

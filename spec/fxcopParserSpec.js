@@ -2,6 +2,9 @@ define([
 	'fxcopParser',
 	'text!fixtures/fxcopMetrics.xml'
 	], function (parser, metricsXml) {
+
+	'use strict';
+
 	describe ('fxcopParser', function () {
 		
 		it('should convert XML metrics file to json', function () {

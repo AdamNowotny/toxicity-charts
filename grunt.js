@@ -7,24 +7,32 @@ module.exports = function(grunt) {
       src: [ 'dist' ]
     },
     lint: {
-      files: ['grunt.js', 'src/**/*.js', 'spec/**/*.js']
+      files: ['src/**/*.js', 'spec/**/*.js']
     },
     jshint: {
       options: {
         curly: false,
         eqeqeq: true,
+        forin: true,
         immed: true,
         latedef: true,
         newcap: true,
         noarg: true,
-        sub: true,
+        noempty: true,
+        nonew: true,
         undef: true,
-        boss: true,
-        eqnull: true,
-        browser: true
+        browser: true,
+        strict: true,
+        trailing: true
       },
       globals: {
-        jQuery: true
+        define: true,
+        describe: true,
+        it: true,
+        expect: true,
+        jasmine: true,
+        beforeEach: true,
+        loadFixtures: true
       }
     },
     requirejs: {
@@ -69,9 +77,7 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint qunit concat min');
-  
-  grunt.registerTask('dist', 'clean requirejs copy');
+  grunt.registerTask('default', 'clean lint requirejs copy');
 
   grunt.loadNpmTasks('grunt-contrib');
 };

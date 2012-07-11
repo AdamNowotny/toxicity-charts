@@ -74,11 +74,12 @@ Libraries used
 
 Build
 =====
+
 * Install [node.js](http://nodejs.org/)
 * Install [grunt](https://github.com/cowboy/grunt), [grunt-contrib](https://github.com/gruntjs/grunt-contrib)
 
-    npm install grunt grunt-contrib
+	npm install grunt grunt-contrib
 
 * Run default grunt target to build
 
-    node_modules/.bin/grunt
+	node_modules/.bin/grunt

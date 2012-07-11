@@ -1,5 +1,5 @@
 require.config({
-	baseUrl: 'src',
+	baseUrl: '../src',
 	paths: {
 		spec: '../spec',
 		fixtures: '../spec/fixtures',
@@ -9,10 +9,12 @@ require.config({
 		bootstrap: '../lib/bootstrap/js/bootstrap.min',
 		amdutils: '../lib/amd-utils/src'
 	},
-	deps: [	'arrayExtensions', 'stringExtensions' ],
 	shim: {
 		d3: { exports: 'd3'	},
-		nvd3: { exports: 'nv' },
+		nvd3: {
+			deps: ['d3'],
+			exports: 'nv'
+		},
 		bootstrap: [ 'jquery' ]
 	}
 });
@@ -21,8 +23,10 @@ require([
 	'spec/navigationSpec',
 	'spec/fxcopParserSpec'
 ], function ($) {
+	'use strict';
+	
 	$.fx.off = true;
-	jasmine.getFixtures().fixturesPath = 'spec/fixtures';
+	jasmine.getFixtures().fixturesPath = 'fixtures';
 	jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
 	jasmine.getEnv().execute();
 });

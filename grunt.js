@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     clean: {
-      src: [ 'dist' ]
+      src: [ 'build' ]
     },
     lint: {
       files: ['src/**/*.js', 'spec/**/*.js']
@@ -32,25 +32,32 @@ module.exports = function(grunt) {
         expect: true,
         jasmine: true,
         beforeEach: true,
-        loadFixtures: true
+        loadFixtures: true,
+        require: true
+      }
+    },
+    mincss: {
+      compress: {
+        files: {
+          'build/css/main.css': [ 'css/main.css' ]
+        }
       }
     },
     requirejs: {
       compile: {
         options: {
           baseUrl: "src",
-          name: "../mainModule",
-          mainConfigFile: 'mainModule.js',
-          out: 'dist/mainModule.js',
+          name: "main",
+          mainConfigFile: 'src/main.js',
+          out: 'build/main.js',
           paths: {
             jquery: 'empty:',
             bootstrap: 'empty:',
             d3: 'empty:',
             nvd3: 'empty:'
           },
-          pragmas: {
-            doExclude: true
-          }
+          inlineText: true,
+          useStrict: true
         }
       }
     },
@@ -60,9 +67,9 @@ module.exports = function(grunt) {
           basePath: "."
         },
         files: {
-          'dist': [
+          'build': [
             'index.html',
-            'main.css',
+            'css/main.css',
             'lib/require-js/require.min.js',
             'lib/jquery/jquery-1.7.2.min.js',
             'lib/bootstrap/css/bootstrap.css',
@@ -77,7 +84,7 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'clean lint requirejs copy');
+  grunt.registerTask('default', 'clean lint mincss requirejs copy');
 
   grunt.loadNpmTasks('grunt-contrib');
 };

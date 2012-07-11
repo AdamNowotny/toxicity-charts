@@ -72,6 +72,10 @@ Libraries used
 * [Twitter bootstrap](http://twitter.github.com/bootstrap/)
 * [Jasmine](http://pivotal.github.com/jasmine/)
 
-Build:
-* [grunt](https://github.com/cowboy/grunt)
-* [grunt-contrib](https://github.com/gruntjs/grunt-contrib) - clean, copy and requirejs tasks
+Build
+=====
+* Install [node.js](http://nodejs.org/)
+* Install [grunt](https://github.com/cowboy/grunt), [grunt-contrib](https://github.com/gruntjs/grunt-contrib)
+	npm install grunt grunt-contrib
+* Run default grunt target to build
+	node_modules/.bin/grunt

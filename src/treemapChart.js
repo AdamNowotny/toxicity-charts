@@ -26,7 +26,7 @@ define(['d3', 'amdutils/string/escapeHtml'], function (d3, escapeHtml) {
 		});
 
 	function treemapChart(selection) {
-		if (selection != currentSelection) {
+		if (selection !== currentSelection) {
 			currentSelection = selection;
 			// need to reset cached state when switching datasets with a sticky layout
 			treemapLayout.sticky(true);

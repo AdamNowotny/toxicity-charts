@@ -1,4 +1,4 @@
-﻿define(['jquery', 'amdutils/string/endsWith'], function ($, endsWith) {
+define(['jquery', 'amdutils/string/endsWith'], function ($, endsWith) {
 
 	'use strict';
 	
@@ -82,12 +82,12 @@
 		return normalisedValue;
 	}
 
-	function isMemberValid (index) {
+	var isMemberValid = function(index) {
 		var fileName = $(this).attr('File');
 		return fileName && !ignoredFiles.some(function fileIgnored(value) {
 			return endsWith(fileName, value);
 		});
-	}
+	};
 
 	return fxcopParser;
 

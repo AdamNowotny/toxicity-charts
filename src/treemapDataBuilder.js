@@ -1,4 +1,4 @@
-﻿define(['jquery'], function ($) {
+define(['jquery'], function ($) {
 
 	'use strict';
 	
@@ -41,7 +41,7 @@
 	var getNode = function (nodes, name) {
 		var node;
 		nodes.forEach(function (child) {
-			if (child.name == name) {
+			if (child.name === name) {
 				node = child;
 			}
 		});

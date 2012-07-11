@@ -11,7 +11,10 @@ require.config({
 	},
 	shim: {
 		d3: { exports: 'd3'	},
-		nvd3: { exports: 'nv' },
+		nvd3: {
+			deps: ['d3'],
+			exports: 'nv'
+		},
 		bootstrap: [ 'jquery' ]
 	}
 });

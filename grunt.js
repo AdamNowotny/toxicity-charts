@@ -79,11 +79,15 @@ module.exports = function(grunt) {
           ]
         }
       }
+    },
+    jasmine: {
+      all: ['spec/specrunner.html']
     }
   });
 
   // Default task.
-  grunt.registerTask('default', 'clean lint mincss requirejs copy');
+  grunt.registerTask('default', 'clean lint jasmine mincss requirejs copy');
 
   grunt.loadNpmTasks('grunt-contrib');
+  grunt.loadNpmTasks('grunt-jasmine-task');
 };

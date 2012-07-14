@@ -18,8 +18,9 @@ define(['d3', 'nvd3'], function (d3, nvd3) {
 				.color(color.range())
 				.showControls(false)
 				.stacked(true)
-				.xAxisEnabled(false);
+				.tooltips(false);
 			chart.yAxis.tickFormat(function (d) { return d3.round(d, 2); });
+			chart.xAxis.ticks([]);
 			selection.select('svg').transition().duration(500).call(chart);
 			showStats(d3.select(this), fxcop.slice(0, 10));
 		});

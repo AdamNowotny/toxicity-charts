@@ -75,7 +75,7 @@ module.exports = function(grunt) {
             'lib/bootstrap/img/*',
             'lib/bootstrap/js/bootstrap.min.js',
             'lib/d3/d3.v2.min.js',
-            'lib/nvd3/nv.d3.modified.js'
+            'lib/nvd3/nv.d3.min.js'
           ]
         }
       }
@@ -86,7 +86,8 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'clean lint jasmine mincss requirejs copy');
+  grunt.registerTask('default', 'clean lint mincss requirejs copy');
+  grunt.registerTask('full', 'clean lint jasmine mincss requirejs copy');
 
   grunt.loadNpmTasks('grunt-contrib');
   grunt.loadNpmTasks('grunt-jasmine-task');

@@ -49,7 +49,7 @@ module.exports = function(grunt) {
           baseUrl: "src",
           name: "main",
           mainConfigFile: 'src/main.js',
-          out: 'build/main.js',
+          out: 'build/src/main.js',
           paths: {
             jquery: 'empty:',
             bootstrap: 'empty:',

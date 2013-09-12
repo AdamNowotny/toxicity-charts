@@ -1,0 +1,48 @@
+{
+  "name": "toxicity-charts",
+  "description": "Code metrics visualization for .NET code",
+  "version": "0.1.0",
+  "homepage": "https://github.com/AdamNowotny/toxicity-charts",
+  "author": {
+    "name": "Adam Nowotny",
+    "email": "adam.nowotny@gmail.com",
+    "url": "https://profiles.google.com/adam.nowotny"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AdamNowotny/toxicity-charts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AdamNowotny/toxicity-charts/issues"
+  },
+  "licenses": [
+    {
+      "type": "Apache",
+      "url": "https://github.com/AdamNowotny/toxicity-charts/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt --verbose"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.9",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-cssmin": "~0.6.1",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-karma": "~0.6.2",
+    "karma": "~0.10.2",
+    "karma-chrome-launcher": "~0.1.0",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-jasmine": "~0.1.3",
+    "karma-script-launcher": "~0.1.0",
+    "karma-phantomjs-launcher": "~0.1.0",
+    "karma-requirejs": "~0.1.0"
+  }
+}

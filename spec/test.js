@@ -1,5 +1,6 @@
+/* global console */
 require.config({
-	baseUrl: '../src',
+	baseUrl: '/base/src',
 	paths: {
 		spec: '../spec',
 		fixtures: '../spec/fixtures',
@@ -18,15 +19,16 @@ require.config({
 		bootstrap: [ 'jquery' ]
 	}
 });
-require([
-	'jquery',
-	'spec/navigationSpec',
-	'spec/fxcopParserSpec'
-], function ($) {
+
+jasmine.getFixtures().fixturesPath = '/base/spec/fixtures';
+
+var tests = Object.keys(window.__karma__.files).filter(function (file) {
 	'use strict';
-	
-	$.fx.off = true;
-	jasmine.getFixtures().fixturesPath = 'fixtures';
-	jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-	jasmine.getEnv().execute();
+	return (/Spec\.js$/).test(file);
+});
+
+require.config({
+	baseUrl: '/base/src',
+	deps: tests,
+	callback: window.__karma__.start
 });

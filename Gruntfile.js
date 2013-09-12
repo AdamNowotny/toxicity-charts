@@ -1,42 +1,39 @@
 /*global module:false*/
 module.exports = function(grunt) {
+  'use strict';
 
-  // Project configuration.
+  grunt.registerTask('default', ['clean', 'jshint', 'karma:once', 'cssmin', 'requirejs', 'copy']);
+  grunt.registerTask('watch', ['karma:watch']);
+
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-karma');
+  
   grunt.initConfig({
     clean: {
       src: [ 'build' ]
     },
-    lint: {
-      files: ['src/**/*.js', 'spec/**/*.js']
-    },
     jshint: {
+      files: ['src/**/*.js', 'spec/**/*.js'],
       options: {
-        curly: false,
-        eqeqeq: true,
-        forin: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        noempty: true,
-        nonew: true,
-        undef: true,
-        browser: true,
-        strict: true,
-        trailing: true
-      },
-      globals: {
-        define: true,
-        describe: true,
-        it: true,
-        expect: true,
-        jasmine: true,
-        beforeEach: true,
-        loadFixtures: true,
-        require: true
+        jshintrc: '.jshintrc'
       }
     },
-    mincss: {
+    karma: {
+      options: {
+        configFile: 'karma.conf.js'
+      },
+      once: {
+        singleRun: true
+      },
+      watch: {
+        singleRun: false
+      }
+    },
+    cssmin: {
       compress: {
         files: {
           'build/css/main.css': [ 'css/main.css' ]
@@ -64,10 +61,10 @@ module.exports = function(grunt) {
     copy: {
       dist: {
         options: {
-          basePath: "."
+          basePath: '.'
         },
         files: {
-          'build': [
+          'build/': [
             'index.html',
             'lib/require-js/require.min.js',
             'lib/jquery/jquery-1.7.2.min.js',
@@ -79,16 +76,7 @@ module.exports = function(grunt) {
           ]
         }
       }
-    },
-    jasmine: {
-      all: ['spec/specrunner.html']
     }
   });
 
-  // Default task.
-  grunt.registerTask('default', 'clean lint mincss requirejs copy');
-  grunt.registerTask('full', 'clean lint jasmine mincss requirejs copy');
-
-  grunt.loadNpmTasks('grunt-contrib');
-  grunt.loadNpmTasks('grunt-jasmine-task');
 };

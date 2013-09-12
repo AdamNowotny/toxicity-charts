@@ -1,0 +1,31 @@
+{
+    "curly": false,
+    "eqeqeq": true,
+    "forin": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonew": true,
+    "undef": true,
+    "browser": true,
+    "strict": true,
+    "trailing": true,
+    "predef": [
+    	"afterEach",
+        "beforeEach",
+        "define",
+        "describe",
+        "expect",
+        "it",
+        "jasmine",
+        "loadFixtures",
+        "readFixtures",
+        "setFixtures",
+        "require",
+        "runs",
+        "spyOn",
+        "waitsFor"
+    ]
+}

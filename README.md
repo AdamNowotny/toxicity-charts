@@ -18,9 +18,10 @@ Toxicity charts shortens the task, so all you need is the metrics file and quick
 How to use
 ==========
 
+* Install FxCop
 * Install Visual Studio Code Metrics PowerTool
 * Create metrics XML file (scripts/FxCopMetrics.bat can be helpful)
-* Open http://toxicity.azurewebsites.net/
+* Open http://toxicity.azurewebsites.net/ (or build the app yourself)
 * Load the generated file using the website (drag to the file control on the page)
 
 Tested only in Google Chrome.
@@ -70,7 +71,7 @@ Libraries used
 * [Require-JS](http://requirejs.org/)
 * [jQuery](http://jquery.com/)
 * [Twitter bootstrap](http://twitter.github.com/bootstrap/)
-* [Jasmine](http://pivotal.github.com/jasmine/)
+* [Karma](http://karma-runner.github.io/)
 
 Development
 ===========
